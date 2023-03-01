@@ -36,9 +36,9 @@ namespace Engine
         {
         }
 
-        public void AddEntity(BaseEntity entity)
+        public void AddMesh(Mesh mesh)
         {
-            _appWindow.AddEntity(entity);
+            _appWindow.AddMesh(mesh);
         }
     }
 }

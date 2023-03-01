@@ -3,22 +3,25 @@ using OpenTK.Mathematics;
 
 namespace Engine.Entities
 {
-    public abstract class BaseEntity
+    public abstract class Mesh
     {
-        public Vector3 Position { get; private set; }
         public float[] Vertices { get; private set; } = default!;
 
         protected readonly VAO Vao;
         protected readonly VBO Vbo;
+        protected readonly EBO Ebo;
         protected readonly Shader Shader;
         protected readonly int VerticeCount;
+        protected readonly uint[] Indices;
 
-        public BaseEntity(int verticeCount)
+        public Mesh(int verticeCount, uint[] indices)
         {
             Vao = new VAO();
             Vbo = new VBO();
-            Shader = new Shader("Shaders/defaultShader.vert", "Shaders/defaultShader.frag");
+            Ebo = new EBO(indices);
+            Shader = Shader.DefaultShader;
             VerticeCount = verticeCount;
+            Indices = indices;
         }
 
         public virtual void SetVertices(float[] vertices)
@@ -28,17 +31,14 @@ namespace Engine.Entities
             Vbo.SetBufferData(Vertices);
         }
 
-        public virtual void SetPosition(Vector3 newPosition)
-        {
-            Position = newPosition;
-        }
-
         internal void Render()
         {
             Shader.Use();
             Vao.Bind();
 
-            GL.DrawArrays(PrimitiveType.Triangles, 0, VerticeCount);
+            GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
+
+            Vao.Unbind();
         }
     }
 }

@@ -8,20 +8,22 @@ namespace Engine
 {
     public class AppWindow : GameWindow
     {
-        private readonly List<BaseEntity> _entities = new List<BaseEntity>();
+        private readonly List<Mesh> _meshes = new List<Mesh>();
 
         public AppWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
         }
 
-        public void AddEntity(BaseEntity entity)
+        public void AddMesh(Mesh mesh)
         {
-            _entities.Add(entity);
+            _meshes.Add(mesh);
         }
 
         protected override void OnLoad()
         {
             base.OnLoad();
+
+            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -30,9 +32,9 @@ namespace Engine
 
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            foreach (BaseEntity entity in _entities)
+            foreach (Mesh mesh in _meshes)
             {
-                entity.Render();
+                mesh.Render();
             }
 
             SwapBuffers();

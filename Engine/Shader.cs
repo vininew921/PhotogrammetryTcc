@@ -10,6 +10,8 @@ namespace Engine
 {
     public class Shader
     {
+        public static Shader DefaultShader => new Shader("Shaders/defaultShader.vert", "Shaders/defaultShader.frag");
+
         public readonly int Handle;
 
         private readonly Dictionary<string, int> _uniformLocations;

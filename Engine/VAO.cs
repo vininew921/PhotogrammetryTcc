@@ -11,10 +11,11 @@ namespace Engine
             Id = GL.GenVertexArray();
         }
 
-        public void LinkAttrib(VBO vbo, uint layout, int count, VertexAttribPointerType type, int stride, int offset)
+        public void LinkAttrib(VBO vbo, EBO ebo, uint layout, int count, VertexAttribPointerType type, int stride, int offset)
         {
             Bind();
             vbo.Bind();
+            ebo.Bind();
 
             GL.VertexAttribPointer(layout, count, type, false, stride, offset);
             GL.EnableVertexAttribArray(layout);

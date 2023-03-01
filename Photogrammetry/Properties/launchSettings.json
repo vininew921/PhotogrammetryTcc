@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Photogrammetry": {
+      "commandName": "Project",
+      "hotReloadEnabled": false
+    }
+  }
+}
