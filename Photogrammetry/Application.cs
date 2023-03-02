@@ -13,7 +13,7 @@ namespace Photogrammetry
 
         public override void OnLoad()
         {
-            AddMesh(new Rectangle());
+            AddMesh(new Cube(Vector3.Zero));
             base.OnLoad();
         }
 

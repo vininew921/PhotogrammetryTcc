@@ -5,7 +5,10 @@ namespace Engine.Entities
 {
     public abstract class Mesh
     {
+        internal static Camera _camera = default!;
+
         public float[] Vertices { get; private set; } = default!;
+        public Vector3 Position = Vector3.Zero;
 
         protected readonly VAO Vao;
         protected readonly VBO Vbo;
@@ -35,6 +38,10 @@ namespace Engine.Entities
         {
             Shader.Use();
             Vao.Bind();
+
+            Shader.SetMatrix4("model", Matrix4.Identity * Matrix4.CreateTranslation(Position));
+            Shader.SetMatrix4("view", _camera.GetViewMatrix());
+            Shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
 
             GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
 
