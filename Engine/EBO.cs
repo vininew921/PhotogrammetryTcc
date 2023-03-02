@@ -1,35 +1,23 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿namespace Engine;
 
-namespace Engine
+public class EBO
 {
-    public class EBO
+    public int Id { get; set; }
+
+    public EBO(uint[] indices)
     {
-        public int Id { get; set; }
+        Id = GL.GenBuffer();
 
-        public EBO(uint[] indices)
-        {
-            Id = GL.GenBuffer();
+        Bind();
 
-            Bind();
+        GL.BufferData(BufferTarget.ElementArrayBuffer, sizeof(uint) * indices.Length, indices, BufferUsageHint.StaticDraw);
 
-            GL.BufferData(BufferTarget.ElementArrayBuffer, sizeof(uint) * indices.Length, indices, BufferUsageHint.StaticDraw);
-
-            Unbind();
-        }
-
-        public void Bind()
-        {
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, Id);
-        }
-
-        public void Unbind()
-        {
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-        }
-
-        public void Delete()
-        {
-            GL.DeleteBuffer(Id);
-        }
+        Unbind();
     }
+
+    public void Bind() => GL.BindBuffer(BufferTarget.ElementArrayBuffer, Id);
+
+    public static void Unbind() => GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+
+    public void Delete() => GL.DeleteBuffer(Id);
 }

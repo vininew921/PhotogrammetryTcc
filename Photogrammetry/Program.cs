@@ -1,3 +1,3 @@
 ﻿using Photogrammetry;
 
-Application app = new Application(800, 600, "Photogrammetry");
+Application _ = new Application(800, 600, "Photogrammetry");
