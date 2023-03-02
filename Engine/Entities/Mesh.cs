@@ -14,7 +14,9 @@ public abstract class Mesh
     protected readonly int VerticeCount;
     protected readonly uint[] Indices;
 
-    public Mesh(int verticeCount, uint[] indices, Vector3 position)
+    private readonly PrimitiveType _primitiveType;
+
+    public Mesh(int verticeCount, uint[] indices, Vector3 position, PrimitiveType primitiveType = PrimitiveType.Triangles)
     {
         Vao = new VAO();
         Vbo = new VBO();
@@ -23,6 +25,7 @@ public abstract class Mesh
         VerticeCount = verticeCount;
         Indices = indices;
         Position = position;
+        _primitiveType = primitiveType;
     }
 
     public virtual void SetVertices(float[] vertices)
@@ -41,7 +44,7 @@ public abstract class Mesh
         Shader.SetMatrix4("view", _camera.GetViewMatrix());
         Shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
 
-        GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
+        GL.DrawElements(_primitiveType, Indices.Length, DrawElementsType.UnsignedInt, 0);
 
         VAO.Unbind();
     }

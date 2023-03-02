@@ -11,7 +11,8 @@ public abstract class EngineApplication
         {
             Size = new Vector2i(windowWidth, windowHeight),
             Title = windowTitle,
-            Flags = ContextFlags.ForwardCompatible
+            Flags = ContextFlags.ForwardCompatible,
+            NumberOfSamples = 4
         };
 
         _appWindow = new AppWindow(GameWindowSettings.Default, _windowSettings);
