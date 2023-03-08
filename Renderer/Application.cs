@@ -3,12 +3,16 @@ using Engine.Entities;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 
-namespace Photogrammetry;
+namespace Renderer;
 
 internal class Application : EngineApplication
 {
-    public Application(int windowWidth, int windowHeight, string windowTitle) : base(windowWidth, windowHeight, windowTitle)
+    private readonly string[] _args;
+
+    public Application(string[] args, int windowWidth = 800, int windowHeight = 600, string windowTitle = "Renderer") : base(windowWidth, windowHeight, windowTitle)
     {
+        //TO DO: Args will contain vertex points to be rendered, add them to scene
+        _args = args;
     }
 
     public override void OnLoad()
