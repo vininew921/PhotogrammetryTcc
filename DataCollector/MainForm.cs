@@ -71,10 +71,13 @@ public partial class MainForm : Form
 
     private void InitVideo()
     {
-        _videoCaptureDevice = new VideoCaptureDevice(_filterInfoCollection[CbbSourceCamera.SelectedIndex].MonikerString);
-        _videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
-        _videoCaptureDevice.VideoResolution = _videoCaptureDevice.VideoCapabilities[0];
-        _videoCaptureDevice.Start();
+        if (_videoCaptureDevice == null)
+        {
+            _videoCaptureDevice = new VideoCaptureDevice(_filterInfoCollection[CbbSourceCamera.SelectedIndex].MonikerString);
+            _videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
+            _videoCaptureDevice.VideoResolution = _videoCaptureDevice.VideoCapabilities[0];
+            _videoCaptureDevice.Start();
+        }
     }
 
     private void SourceCamera_SelectedIndexChanged(object sender, EventArgs e)
@@ -85,8 +88,7 @@ public partial class MainForm : Form
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
-        Done();
-
         base.OnFormClosing(e);
+        Done();
     }
 }
