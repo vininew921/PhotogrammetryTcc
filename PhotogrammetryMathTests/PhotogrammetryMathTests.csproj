@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj" />
     <ProjectReference Include="..\PhotogrammetryMath\PhotogrammetryMath.csproj" />
   </ItemGroup>
 
