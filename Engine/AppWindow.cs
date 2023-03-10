@@ -21,7 +21,7 @@ public class AppWindow : GameWindow
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.Multisample);
 
-        _camera = new Camera(Vector3.UnitZ * 3, Size.X / (float)Size.Y, MouseState);
+        _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y, MouseState);
 
         Mesh._camera = _camera;
 
