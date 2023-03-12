@@ -1,11 +1,16 @@
 using AForge.Video;
 using AForge.Video.DirectShow;
+using DataCollector;
+using OpenTK.Mathematics;
+using PhotogrammetryMath;
 
 namespace Camera;
 
 public partial class MainForm : Form
 {
     private readonly FilterInfoCollection _filterInfoCollection;
+    private readonly Guid _imageGuid;
+
     private VideoCaptureDevice? _videoCaptureDevice;
 
     public MainForm()
@@ -18,46 +23,59 @@ public partial class MainForm : Form
             CbbSourceCamera.Items.Add(filterInfo.Name);
         }
 
+        foreach (LengthType lengthType in Enum.GetValues(typeof(LengthType)))
+        {
+            CbbLengthType.Items.Add(lengthType.ToString());
+        }
+
         CbbSourceCamera.SelectedIndex = 0;
+        CbbLengthType.SelectedIndex = 0;
 
         if (!Directory.Exists("./Images"))
         {
             Directory.CreateDirectory("./Images");
         }
+
+        _imageGuid = Guid.NewGuid();
     }
 
-    private void BtnInit_Click(object sender, EventArgs e) => InitVideo();
+    private void BtnCaptureImage_Click(object sender, EventArgs e) => SetStaticImages((Bitmap)LiveCamImage.Image.Clone());
 
-    private void VideoCaptureDevice_NewFrame(object sender, NewFrameEventArgs e) => SetCamImage((Bitmap)e.Frame.Clone());
+    private void VideoCaptureDevice_NewFrame(object sender, NewFrameEventArgs e) => SetLiveCamImage((Bitmap)e.Frame.Clone());
 
-    private void BtnSave_Click(object sender, EventArgs e)
+    private void BtnProcessImages_Click(object sender, EventArgs e)
     {
-        SetCroppedImage((Bitmap)PicCamImage.Image.Clone());
+        float cameraConstant = float.Parse(TxtFocalDistance.Text);
+        LengthType lengthType = (LengthType)CbbLengthType.SelectedIndex;
+        Vector3 camera1pos = new Vector3(float.Parse(TxtXAxis1.Text), float.Parse(TxtYAxis1.Text), float.Parse(TxtZAxis1.Text));
+        Vector3 camera2pos = new Vector3(float.Parse(TxtXAxis2.Text), float.Parse(TxtYAxis2.Text), float.Parse(TxtZAxis2.Text));
 
-        PicCroppedImage.Image.Save($"./Images/{DateTime.Now.Ticks}.png", System.Drawing.Imaging.ImageFormat.Png);
+        ImageProcessing.ProcessImages(cameraConstant, lengthType, camera1pos, camera2pos, PbImage1.Image, PbImage2.Image);
     }
 
-    private void SetCamImage(Bitmap newImageBitmap)
+    private void SetLiveCamImage(Bitmap newImageBitmap)
     {
-        if (PicCamImage.Image != null)
+        if (LiveCamImage.Image != null)
         {
-            PicCamImage.Image.Dispose();
+            LiveCamImage.Image.Dispose();
         }
 
-        PicCamImage.Image = newImageBitmap;
+        LiveCamImage.Image = newImageBitmap;
     }
 
-    private void SetCroppedImage(Bitmap newImageBitmap)
+    private void SetStaticImages(Image image)
     {
-        if (PicCroppedImage.Image != null)
+        if (PbImage1.Image == null)
         {
-            PicCroppedImage.Image.Dispose();
+            PbImage1.Image = (Bitmap)image.Clone();
+            PbImage1.Image.Save($"./Images/{_imageGuid}-1.png", System.Drawing.Imaging.ImageFormat.Png);
         }
-
-        PicCroppedImage.Image = newImageBitmap;
+        else if (PbImage2.Image == null)
+        {
+            PbImage2.Image = (Bitmap)image.Clone();
+            PbImage2.Image.Save($"./Images/{_imageGuid}-2.png", System.Drawing.Imaging.ImageFormat.Png);
+        }
     }
-
-    private void BtnDone_Click(object sender, EventArgs e) => Done();
 
     private void Done()
     {

@@ -42,5 +42,5 @@ public enum LengthType
 {
     Millimiters,
     Centimeters,
-    Meters,
+    Meters
 }
