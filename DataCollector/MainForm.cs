@@ -45,6 +45,8 @@ public partial class MainForm : Form
 
     private void BtnProcessImages_Click(object sender, EventArgs e)
     {
+        CameraMatrix? cameraMatrix = Calibration.Calibrate("teste-calibracao");
+
         float cameraConstant = float.Parse(TxtFocalDistance.Text);
         LengthType lengthType = (LengthType)CbbLengthType.SelectedIndex;
         Vector3 camera1pos = new Vector3(float.Parse(TxtXAxis1.Text), float.Parse(TxtYAxis1.Text), float.Parse(TxtZAxis1.Text));
@@ -68,12 +70,12 @@ public partial class MainForm : Form
         if (PbImage1.Image == null)
         {
             PbImage1.Image = (Bitmap)image.Clone();
-            PbImage1.Image.Save($"./Images/{_imageGuid}-1.png", System.Drawing.Imaging.ImageFormat.Png);
+            PbImage1.Image.Save($"./Images/{_imageGuid}-1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
         else if (PbImage2.Image == null)
         {
             PbImage2.Image = (Bitmap)image.Clone();
-            PbImage2.Image.Save($"./Images/{_imageGuid}-2.png", System.Drawing.Imaging.ImageFormat.Png);
+            PbImage2.Image.Save($"./Images/{_imageGuid}-2.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
     }
 
