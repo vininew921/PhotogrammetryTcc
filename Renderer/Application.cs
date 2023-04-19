@@ -3,6 +3,7 @@ using Engine.Entities;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using PhotogrammetryMath;
 
 namespace Renderer;
 
@@ -23,12 +24,14 @@ internal class Application : EngineApplication
         List<Vector3>? resultFromFile = JsonConvert.DeserializeObject<List<Vector3>>(File.ReadAllText(Path.Combine(_triangulationResults, "teste.json")));
         if (resultFromFile != null)
         {
-            foreach (Vector3 start in resultFromFile)
+            foreach (Vector3 point in resultFromFile)
             {
-                AddMesh(new Cube(start, 1));
-                foreach (Vector3 end in resultFromFile)
+                AddMesh(new Cube(point, 10));
+                List<Vector3> neighbors = NearestNeighbors.GetNearestNeighbors(point, resultFromFile, false, 6);
+
+                foreach (Vector3 neighbor in neighbors)
                 {
-                    AddMesh(new Line(start, end));
+                    AddMesh(new Line(point, neighbor));
                 }
             }
         }

@@ -15,4 +15,18 @@ public class Triangle : Mesh
 
         Vao.LinkAttrib(Vbo, Ebo, 0, VerticeCount, VertexAttribPointerType.Float, 3 * sizeof(float), 0);
     }
+
+    public Triangle(Vector3[] vertices) : base(verticeCount: 3, position: Vector3.Zero, indices: new uint[3] { 0, 1, 2 })
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            _baseVertices[i * 3] = vertices[i].X;
+            _baseVertices[(i * 3) + 1] = vertices[i].Y;
+            _baseVertices[(i * 3) + 2] = vertices[i].Z;
+        }
+
+        SetVertices(_baseVertices);
+
+        Vao.LinkAttrib(Vbo, Ebo, 0, VerticeCount, VertexAttribPointerType.Float, 3 * sizeof(float), 0);
+    }
 }
