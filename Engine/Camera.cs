@@ -13,7 +13,7 @@ internal class Camera
     private float _fov = MathHelper.PiOver2;
     private Vector2 _lastPos;
 
-    private const float _cameraSpeed = 3.0f;
+    private const float _cameraSpeed = 10.0f;
     private const float _sensitivity = 0.2f;
 
     public Camera(Vector3 position, float aspectRatio, MouseState mouse)

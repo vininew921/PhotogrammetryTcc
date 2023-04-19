@@ -50,6 +50,11 @@ partial class StereoImageForm
             this.CbbCalibrations = new System.Windows.Forms.ComboBox();
             this.LblCalibrations = new System.Windows.Forms.Label();
             this.BtnReset = new System.Windows.Forms.Button();
+            this.LblCameraMatrix = new System.Windows.Forms.Label();
+            this.LblCameraMatrixValue = new System.Windows.Forms.Label();
+            this.BtnTriangulate = new System.Windows.Forms.Button();
+            this.TxtObjectName = new System.Windows.Forms.TextBox();
+            this.LblTriangulationResult = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.LiveCamImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbImage1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbImage2)).BeginInit();
@@ -133,6 +138,7 @@ partial class StereoImageForm
             this.PbImage1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PbImage1.TabIndex = 11;
             this.PbImage1.TabStop = false;
+            this.PbImage1.Click += new System.EventHandler(this.PbImage1_Click);
             // 
             // PbImage2
             // 
@@ -142,6 +148,7 @@ partial class StereoImageForm
             this.PbImage2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PbImage2.TabIndex = 14;
             this.PbImage2.TabStop = false;
+            this.PbImage2.Click += new System.EventHandler(this.PbImage2_Click);
             // 
             // BtnCaptureImage
             // 
@@ -232,6 +239,7 @@ partial class StereoImageForm
             this.CbbCalibrations.Name = "CbbCalibrations";
             this.CbbCalibrations.Size = new System.Drawing.Size(320, 23);
             this.CbbCalibrations.TabIndex = 23;
+            this.CbbCalibrations.SelectedIndexChanged += new System.EventHandler(this.CbbCalibrations_SelectedIndexChanged);
             // 
             // LblCalibrations
             // 
@@ -253,11 +261,63 @@ partial class StereoImageForm
             this.BtnReset.UseVisualStyleBackColor = true;
             this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
             // 
+            // LblCameraMatrix
+            // 
+            this.LblCameraMatrix.AutoSize = true;
+            this.LblCameraMatrix.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.LblCameraMatrix.Location = new System.Drawing.Point(12, 355);
+            this.LblCameraMatrix.Name = "LblCameraMatrix";
+            this.LblCameraMatrix.Size = new System.Drawing.Size(89, 15);
+            this.LblCameraMatrix.TabIndex = 26;
+            this.LblCameraMatrix.Text = "Camera Matrix";
+            // 
+            // LblCameraMatrixValue
+            // 
+            this.LblCameraMatrixValue.AutoSize = true;
+            this.LblCameraMatrixValue.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.LblCameraMatrixValue.Location = new System.Drawing.Point(12, 377);
+            this.LblCameraMatrixValue.Name = "LblCameraMatrixValue";
+            this.LblCameraMatrixValue.Size = new System.Drawing.Size(37, 15);
+            this.LblCameraMatrixValue.TabIndex = 27;
+            this.LblCameraMatrixValue.Text = "value";
+            // 
+            // BtnTriangulate
+            // 
+            this.BtnTriangulate.Location = new System.Drawing.Point(12, 550);
+            this.BtnTriangulate.Name = "BtnTriangulate";
+            this.BtnTriangulate.Size = new System.Drawing.Size(215, 23);
+            this.BtnTriangulate.TabIndex = 28;
+            this.BtnTriangulate.Text = "Triangulate";
+            this.BtnTriangulate.UseVisualStyleBackColor = true;
+            this.BtnTriangulate.Click += new System.EventHandler(this.BtnTriangulate_Click);
+            // 
+            // TxtObjectName
+            // 
+            this.TxtObjectName.Location = new System.Drawing.Point(12, 521);
+            this.TxtObjectName.Name = "TxtObjectName";
+            this.TxtObjectName.Size = new System.Drawing.Size(215, 23);
+            this.TxtObjectName.TabIndex = 29;
+            // 
+            // LblTriangulationResult
+            // 
+            this.LblTriangulationResult.AutoSize = true;
+            this.LblTriangulationResult.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.LblTriangulationResult.Location = new System.Drawing.Point(12, 503);
+            this.LblTriangulationResult.Name = "LblTriangulationResult";
+            this.LblTriangulationResult.Size = new System.Drawing.Size(80, 15);
+            this.LblTriangulationResult.TabIndex = 30;
+            this.LblTriangulationResult.Text = "Object Name";
+            // 
             // StereoImageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1347, 819);
+            this.Controls.Add(this.LblTriangulationResult);
+            this.Controls.Add(this.TxtObjectName);
+            this.Controls.Add(this.BtnTriangulate);
+            this.Controls.Add(this.LblCameraMatrixValue);
+            this.Controls.Add(this.LblCameraMatrix);
             this.Controls.Add(this.BtnReset);
             this.Controls.Add(this.LblCalibrations);
             this.Controls.Add(this.CbbCalibrations);
@@ -318,4 +378,9 @@ partial class StereoImageForm
     private ComboBox CbbCalibrations;
     private Label LblCalibrations;
     private Button BtnReset;
+    private Label LblCameraMatrix;
+    private Label LblCameraMatrixValue;
+    private Button BtnTriangulate;
+    private TextBox TxtObjectName;
+    private Label LblTriangulationResult;
 }
