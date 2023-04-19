@@ -6,10 +6,12 @@ namespace StereoImage;
 
 public partial class StereoImageForm : Form
 {
+    private int _imageIndex = 0;
     private VideoCaptureDevice? _videoCaptureDevice;
 
     private readonly FilterInfoCollection _filterInfoCollection;
-    private readonly Guid _imageGuid;
+    private readonly PictureBox[] _pictures;
+    private readonly int _maxImages = 2;
 
     public StereoImageForm()
     {
@@ -31,7 +33,12 @@ public partial class StereoImageForm : Form
             Directory.CreateDirectory("./Images");
         }
 
-        _imageGuid = Guid.NewGuid();
+        _imageIndex = 0;
+        _pictures = new PictureBox[2]
+        {
+            PbImage1,
+            PbImage2
+        };
     }
 
     private void BtnCaptureImage_Click(object sender, EventArgs e) => SetStaticImages((Bitmap)LiveCamImage.Image.Clone());
@@ -48,17 +55,29 @@ public partial class StereoImageForm : Form
         LiveCamImage.Image = newImageBitmap;
     }
 
-    private void SetStaticImages(Image image)
+    private void SetStaticImages(Bitmap image)
     {
-        if (PbImage1.Image == null)
+        if (_imageIndex < _maxImages)
         {
-            PbImage1.Image = (Bitmap)image.Clone();
-            PbImage1.Image.Save($"./Images/{_imageGuid}-1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            _pictures[_imageIndex].Image = (Bitmap)image.Clone();
+            _imageIndex++;
         }
-        else if (PbImage2.Image == null)
+
+        image.Dispose();
+    }
+
+    private void Reset()
+    {
+        _imageIndex = 0;
+        for (int i = 0; i < _maxImages; i++)
         {
-            PbImage2.Image = (Bitmap)image.Clone();
-            PbImage2.Image.Save($"./Images/{_imageGuid}-2.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            if (_pictures[i].Image == null)
+            {
+                continue;
+            }
+
+            _pictures[i].Image.Dispose();
+            _pictures[i].Image = null;
         }
     }
 
@@ -93,5 +112,10 @@ public partial class StereoImageForm : Form
     {
         base.OnFormClosing(e);
         Done();
+    }
+
+    private void BtnReset_Click(object sender, EventArgs e)
+    {
+        Reset();
     }
 }

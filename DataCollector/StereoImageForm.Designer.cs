@@ -49,6 +49,7 @@ partial class StereoImageForm
             this.LblCameraInfo2 = new System.Windows.Forms.Label();
             this.CbbCalibrations = new System.Windows.Forms.ComboBox();
             this.LblCalibrations = new System.Windows.Forms.Label();
+            this.BtnReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.LiveCamImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbImage1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbImage2)).BeginInit();
@@ -66,7 +67,7 @@ partial class StereoImageForm
             // LblXAxis1
             // 
             this.LblXAxis1.AutoSize = true;
-            this.LblXAxis1.Location = new System.Drawing.Point(874, 58);
+            this.LblXAxis1.Location = new System.Drawing.Point(1078, 58);
             this.LblXAxis1.Name = "LblXAxis1";
             this.LblXAxis1.Size = new System.Drawing.Size(14, 15);
             this.LblXAxis1.TabIndex = 3;
@@ -74,7 +75,7 @@ partial class StereoImageForm
             // 
             // TxtXAxis1
             // 
-            this.TxtXAxis1.Location = new System.Drawing.Point(876, 76);
+            this.TxtXAxis1.Location = new System.Drawing.Point(1080, 76);
             this.TxtXAxis1.Name = "TxtXAxis1";
             this.TxtXAxis1.Size = new System.Drawing.Size(37, 23);
             this.TxtXAxis1.TabIndex = 4;
@@ -82,7 +83,7 @@ partial class StereoImageForm
             // 
             // TxtYAxis1
             // 
-            this.TxtYAxis1.Location = new System.Drawing.Point(923, 76);
+            this.TxtYAxis1.Location = new System.Drawing.Point(1127, 76);
             this.TxtYAxis1.Name = "TxtYAxis1";
             this.TxtYAxis1.Size = new System.Drawing.Size(37, 23);
             this.TxtYAxis1.TabIndex = 6;
@@ -91,7 +92,7 @@ partial class StereoImageForm
             // LblYAxis1
             // 
             this.LblYAxis1.AutoSize = true;
-            this.LblYAxis1.Location = new System.Drawing.Point(923, 58);
+            this.LblYAxis1.Location = new System.Drawing.Point(1127, 58);
             this.LblYAxis1.Name = "LblYAxis1";
             this.LblYAxis1.Size = new System.Drawing.Size(14, 15);
             this.LblYAxis1.TabIndex = 5;
@@ -99,7 +100,7 @@ partial class StereoImageForm
             // 
             // TxtZAxis1
             // 
-            this.TxtZAxis1.Location = new System.Drawing.Point(966, 76);
+            this.TxtZAxis1.Location = new System.Drawing.Point(1170, 76);
             this.TxtZAxis1.Name = "TxtZAxis1";
             this.TxtZAxis1.Size = new System.Drawing.Size(37, 23);
             this.TxtZAxis1.TabIndex = 8;
@@ -108,7 +109,7 @@ partial class StereoImageForm
             // LblZAxis1
             // 
             this.LblZAxis1.AutoSize = true;
-            this.LblZAxis1.Location = new System.Drawing.Point(968, 58);
+            this.LblZAxis1.Location = new System.Drawing.Point(1172, 58);
             this.LblZAxis1.Name = "LblZAxis1";
             this.LblZAxis1.Size = new System.Drawing.Size(14, 15);
             this.LblZAxis1.TabIndex = 7;
@@ -126,18 +127,18 @@ partial class StereoImageForm
             // 
             // PbImage1
             // 
-            this.PbImage1.Location = new System.Drawing.Point(536, 32);
+            this.PbImage1.Location = new System.Drawing.Point(407, 32);
             this.PbImage1.Name = "PbImage1";
-            this.PbImage1.Size = new System.Drawing.Size(320, 180);
+            this.PbImage1.Size = new System.Drawing.Size(640, 360);
             this.PbImage1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PbImage1.TabIndex = 11;
             this.PbImage1.TabStop = false;
             // 
             // PbImage2
             // 
-            this.PbImage2.Location = new System.Drawing.Point(536, 220);
+            this.PbImage2.Location = new System.Drawing.Point(407, 408);
             this.PbImage2.Name = "PbImage2";
-            this.PbImage2.Size = new System.Drawing.Size(320, 180);
+            this.PbImage2.Size = new System.Drawing.Size(640, 360);
             this.PbImage2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PbImage2.TabIndex = 14;
             this.PbImage2.TabStop = false;
@@ -156,7 +157,7 @@ partial class StereoImageForm
             // 
             this.LblCameraInfo1.AutoSize = true;
             this.LblCameraInfo1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.LblCameraInfo1.Location = new System.Drawing.Point(876, 32);
+            this.LblCameraInfo1.Location = new System.Drawing.Point(1080, 32);
             this.LblCameraInfo1.Name = "LblCameraInfo1";
             this.LblCameraInfo1.Size = new System.Drawing.Size(113, 15);
             this.LblCameraInfo1.TabIndex = 2;
@@ -164,7 +165,7 @@ partial class StereoImageForm
             // 
             // TxtZAxis2
             // 
-            this.TxtZAxis2.Location = new System.Drawing.Point(966, 264);
+            this.TxtZAxis2.Location = new System.Drawing.Point(1170, 452);
             this.TxtZAxis2.Name = "TxtZAxis2";
             this.TxtZAxis2.Size = new System.Drawing.Size(37, 23);
             this.TxtZAxis2.TabIndex = 22;
@@ -173,7 +174,7 @@ partial class StereoImageForm
             // LblZAxis2
             // 
             this.LblZAxis2.AutoSize = true;
-            this.LblZAxis2.Location = new System.Drawing.Point(968, 246);
+            this.LblZAxis2.Location = new System.Drawing.Point(1172, 434);
             this.LblZAxis2.Name = "LblZAxis2";
             this.LblZAxis2.Size = new System.Drawing.Size(14, 15);
             this.LblZAxis2.TabIndex = 21;
@@ -181,7 +182,7 @@ partial class StereoImageForm
             // 
             // TxtYAxis2
             // 
-            this.TxtYAxis2.Location = new System.Drawing.Point(923, 264);
+            this.TxtYAxis2.Location = new System.Drawing.Point(1127, 452);
             this.TxtYAxis2.Name = "TxtYAxis2";
             this.TxtYAxis2.Size = new System.Drawing.Size(37, 23);
             this.TxtYAxis2.TabIndex = 20;
@@ -190,7 +191,7 @@ partial class StereoImageForm
             // LblYAxis2
             // 
             this.LblYAxis2.AutoSize = true;
-            this.LblYAxis2.Location = new System.Drawing.Point(923, 246);
+            this.LblYAxis2.Location = new System.Drawing.Point(1127, 434);
             this.LblYAxis2.Name = "LblYAxis2";
             this.LblYAxis2.Size = new System.Drawing.Size(14, 15);
             this.LblYAxis2.TabIndex = 19;
@@ -198,7 +199,7 @@ partial class StereoImageForm
             // 
             // TxtXAxis2
             // 
-            this.TxtXAxis2.Location = new System.Drawing.Point(876, 264);
+            this.TxtXAxis2.Location = new System.Drawing.Point(1080, 452);
             this.TxtXAxis2.Name = "TxtXAxis2";
             this.TxtXAxis2.Size = new System.Drawing.Size(37, 23);
             this.TxtXAxis2.TabIndex = 18;
@@ -207,7 +208,7 @@ partial class StereoImageForm
             // LblXAxis2
             // 
             this.LblXAxis2.AutoSize = true;
-            this.LblXAxis2.Location = new System.Drawing.Point(874, 246);
+            this.LblXAxis2.Location = new System.Drawing.Point(1078, 434);
             this.LblXAxis2.Name = "LblXAxis2";
             this.LblXAxis2.Size = new System.Drawing.Size(14, 15);
             this.LblXAxis2.TabIndex = 17;
@@ -217,7 +218,7 @@ partial class StereoImageForm
             // 
             this.LblCameraInfo2.AutoSize = true;
             this.LblCameraInfo2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.LblCameraInfo2.Location = new System.Drawing.Point(876, 220);
+            this.LblCameraInfo2.Location = new System.Drawing.Point(1080, 408);
             this.LblCameraInfo2.Name = "LblCameraInfo2";
             this.LblCameraInfo2.Size = new System.Drawing.Size(113, 15);
             this.LblCameraInfo2.TabIndex = 16;
@@ -227,7 +228,7 @@ partial class StereoImageForm
             // 
             this.CbbCalibrations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbCalibrations.FormattingEnabled = true;
-            this.CbbCalibrations.Location = new System.Drawing.Point(536, 430);
+            this.CbbCalibrations.Location = new System.Drawing.Point(12, 306);
             this.CbbCalibrations.Name = "CbbCalibrations";
             this.CbbCalibrations.Size = new System.Drawing.Size(320, 23);
             this.CbbCalibrations.TabIndex = 23;
@@ -236,17 +237,28 @@ partial class StereoImageForm
             // 
             this.LblCalibrations.AutoSize = true;
             this.LblCalibrations.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.LblCalibrations.Location = new System.Drawing.Point(536, 412);
+            this.LblCalibrations.Location = new System.Drawing.Point(12, 288);
             this.LblCalibrations.Name = "LblCalibrations";
             this.LblCalibrations.Size = new System.Drawing.Size(66, 15);
             this.LblCalibrations.TabIndex = 24;
             this.LblCalibrations.Text = "Calibration";
             // 
-            // MainForm
+            // BtnReset
+            // 
+            this.BtnReset.Location = new System.Drawing.Point(1078, 745);
+            this.BtnReset.Name = "BtnReset";
+            this.BtnReset.Size = new System.Drawing.Size(217, 23);
+            this.BtnReset.TabIndex = 25;
+            this.BtnReset.Text = "Reset";
+            this.BtnReset.UseVisualStyleBackColor = true;
+            this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
+            // 
+            // StereoImageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1069, 519);
+            this.ClientSize = new System.Drawing.Size(1347, 819);
+            this.Controls.Add(this.BtnReset);
             this.Controls.Add(this.LblCalibrations);
             this.Controls.Add(this.CbbCalibrations);
             this.Controls.Add(this.TxtZAxis2);
@@ -268,7 +280,7 @@ partial class StereoImageForm
             this.Controls.Add(this.LblXAxis1);
             this.Controls.Add(this.LblCameraInfo1);
             this.Controls.Add(this.LiveCamImage);
-            this.Name = "MainForm";
+            this.Name = "StereoImageForm";
             this.Text = "Camera - Fotogrametria";
             ((System.ComponentModel.ISupportInitialize)(this.LiveCamImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbImage1)).EndInit();
@@ -305,4 +317,5 @@ partial class StereoImageForm
     private Label LblCameraInfo2;
     private ComboBox CbbCalibrations;
     private Label LblCalibrations;
+    private Button BtnReset;
 }
