@@ -1,7 +1,6 @@
 ﻿using Engine;
 using Engine.Entities;
 using Newtonsoft.Json;
-using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using PhotogrammetryMath;
 
@@ -26,12 +25,12 @@ internal class Application : EngineApplication
         {
             foreach (Vector3 point in resultFromFile)
             {
-                AddMesh(new Cube(point, 10));
+                AddMesh(new Cube(point.ToOpenTKVec3(), 10));
                 List<Vector3> neighbors = NearestNeighbors.GetNearestNeighbors(point, resultFromFile, false, 6);
 
                 foreach (Vector3 neighbor in neighbors)
                 {
-                    AddMesh(new Line(point, neighbor));
+                    AddMesh(new Line(point.ToOpenTKVec3(), neighbor.ToOpenTKVec3()));
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 public class Line : Mesh
 {
-    public Line(Vector3 from, Vector3 to) : base(verticeCount: 3, position: Vector3.Zero, primitiveType: PrimitiveType.Lines, indices: new uint[2] { 0, 1 })
+    public Line(Vec3 from, Vec3 to) : base(verticeCount: 3, position: Vec3.Zero, primitiveType: PrimitiveType.Lines, indices: new uint[2] { 0, 1 })
     {
         float[] _baseVertices =
         {

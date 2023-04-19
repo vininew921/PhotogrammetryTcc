@@ -4,7 +4,7 @@ public class AppWindow : GameWindow
 {
     private readonly List<Mesh> _meshes = new List<Mesh>();
     private Camera _camera = default!;
-    private bool wireframe = false;
+    private bool _wireframe = false;
 
     public AppWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
     {
@@ -21,7 +21,7 @@ public class AppWindow : GameWindow
         GL.Enable(EnableCap.DepthTest);
         GL.Enable(EnableCap.Multisample);
 
-        _camera = new Camera(Vector3.UnitZ, Size.X / (float)Size.Y, MouseState);
+        _camera = new Camera(Vec3.UnitZ, Size.X / (float)Size.Y, MouseState);
 
         Mesh._camera = _camera;
 
@@ -53,7 +53,7 @@ public class AppWindow : GameWindow
 
         if (KeyboardState.IsKeyPressed(Keys.H))
         {
-            if (!wireframe)
+            if (!_wireframe)
             {
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             }
@@ -62,7 +62,7 @@ public class AppWindow : GameWindow
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             }
 
-            wireframe = !wireframe;
+            _wireframe = !_wireframe;
         }
 
         _camera.ProcessInput(KeyboardState, e, MouseState);

@@ -1,7 +1,6 @@
 using AForge.Video;
 using AForge.Video.DirectShow;
 using Newtonsoft.Json;
-using OpenTK.Mathematics;
 using PhotogrammetryMath;
 using System.Drawing.Drawing2D;
 

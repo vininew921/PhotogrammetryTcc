@@ -10,7 +10,7 @@ public class Rectangle : Mesh
        -0.5f,  0.5f, 0.0f, // top left
     };
 
-    public Rectangle(Vector3 position) : base(verticeCount: 3, position: position, indices: new uint[6] { 0, 1, 3, 1, 2, 3 })
+    public Rectangle(Vec3 position) : base(verticeCount: 3, position: position, indices: new uint[6] { 0, 1, 3, 1, 2, 3 })
     {
         SetVertices(_baseVertices);
 

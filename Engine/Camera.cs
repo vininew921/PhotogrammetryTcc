@@ -2,26 +2,26 @@
 
 internal class Camera
 {
-    private Vector3 _front = -Vector3.UnitZ;
-    private Vector3 _up = Vector3.UnitY;
-    private Vector3 _right = Vector3.UnitX;
-    private Vector3 _position;
+    private Vec3 _front = -Vec3.UnitZ;
+    private Vec3 _up = Vec3.UnitY;
+    private Vec3 _right = Vec3.UnitX;
+    private Vec3 _position;
 
     private float _aspectRatio;
     private float _pitch;
     private float _yaw = -MathHelper.PiOver2;
     private float _fov = MathHelper.PiOver2;
-    private Vector2 _lastPos;
+    private Vec2 _lastPos;
 
     private const float _cameraSpeed = 10.0f;
     private const float _sensitivity = 0.2f;
 
-    public Camera(Vector3 position, float aspectRatio, MouseState mouse)
+    public Camera(Vec3 position, float aspectRatio, MouseState mouse)
     {
         _position = position;
         _aspectRatio = aspectRatio;
 
-        _lastPos = new Vector2(mouse.X, mouse.Y);
+        _lastPos = new Vec2(mouse.X, mouse.Y);
     }
 
     public float Pitch
@@ -65,10 +65,10 @@ internal class Camera
         _front.Y = MathF.Sin(_pitch);
         _front.Z = MathF.Cos(_pitch) * MathF.Sin(_yaw);
 
-        _front = Vector3.Normalize(_front);
-        _right = Vector3.Normalize(Vector3.Cross(_front, Vector3.UnitY));
+        _front = Vec3.Normalize(_front);
+        _right = Vec3.Normalize(Vec3.Cross(_front, Vec3.UnitY));
 
-        _up = Vector3.Normalize(Vector3.Cross(_right, _front));
+        _up = Vec3.Normalize(Vec3.Cross(_right, _front));
     }
 
     public void ProcessInput(KeyboardState input, FrameEventArgs e, MouseState mouse)
@@ -106,7 +106,7 @@ internal class Camera
         float deltaX = mouse.X - _lastPos.X;
         float deltaY = mouse.Y - _lastPos.Y;
 
-        _lastPos = new Vector2(mouse.X, mouse.Y);
+        _lastPos = new Vec2(mouse.X, mouse.Y);
 
         Yaw += deltaX * _sensitivity;
         Pitch -= deltaY * _sensitivity;

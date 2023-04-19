@@ -1,6 +1,4 @@
-﻿using OpenTK.Mathematics;
-
-namespace PhotogrammetryMath;
+﻿namespace PhotogrammetryMath;
 
 public class PinholeCamera
 {

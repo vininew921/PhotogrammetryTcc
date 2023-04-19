@@ -93,7 +93,7 @@ public class Shader
         GL.UniformMatrix4(_uniformLocations[name], true, ref data);
     }
 
-    public void SetVector3(string name, Vector3 data)
+    public void SetVec3(string name, Vec3 data)
     {
         Use();
         GL.Uniform3(_uniformLocations[name], data);

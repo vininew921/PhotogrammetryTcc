@@ -5,7 +5,7 @@ public abstract class Mesh
     internal static Camera _camera = default!;
 
     public float[] Vertices { get; private set; } = default!;
-    public Vector3 Position = Vector3.Zero;
+    public Vec3 Position = Vec3.Zero;
 
     protected readonly VAO Vao;
     protected readonly VBO Vbo;
@@ -16,7 +16,7 @@ public abstract class Mesh
 
     private readonly PrimitiveType _primitiveType;
 
-    public Mesh(int verticeCount, uint[] indices, Vector3 position, PrimitiveType primitiveType = PrimitiveType.Triangles)
+    public Mesh(int verticeCount, uint[] indices, Vec3 position, PrimitiveType primitiveType = PrimitiveType.Triangles)
     {
         Vao = new VAO();
         Vbo = new VBO();
