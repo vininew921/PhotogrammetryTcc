@@ -168,7 +168,7 @@ public partial class StereoImageForm : Form
         {
             float cameraDeltaX = float.Parse(TxtXAxis1.Text) - float.Parse(TxtXAxis2.Text);
 
-            Vector3 triangulationResult = Triangulation.Triangulate(p.a.ToVector2(), p.b.ToVector2(), _cameraMatrix.Fx, cameraDeltaX);
+            Vector3 triangulationResult = StereoNormal.Triangulate(p.a.ToVector2(), p.b.ToVector2(), _cameraMatrix.Fx, cameraDeltaX);
             result.Add(triangulationResult);
         }
 

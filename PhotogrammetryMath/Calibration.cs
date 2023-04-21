@@ -86,6 +86,8 @@ public class CameraMatrix
 
     public Matrix3 ToMatrix() => new Matrix3(Fx, S, X0, 0, Fy, Y0, 0, 0, 1);
 
+    public Vector2 ProjectionCenter() => new Vector2(X0, Y0);
+
     public string ToMatrixString() => $"Focal Length X: {Fx}\nFocal Length Y: {Fy}\nOptical Center X: {X0}\nOptical Center Y: {Y0}\nSkew: {S}";
 
     public override string ToString() => Id;
