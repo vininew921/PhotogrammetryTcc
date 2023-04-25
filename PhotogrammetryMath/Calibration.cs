@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OpenTK.Mathematics;
+using Shared;
 using System.Diagnostics;
 
 namespace PhotogrammetryMath;
@@ -7,12 +8,10 @@ namespace PhotogrammetryMath;
 public static class Calibration
 {
     private static readonly string _calibratorPath = "./opencv_calibrator.exe";
-    private static readonly string _appData = Path.GetFullPath($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/PhotogrammetryTCC");
-    private static readonly string _calibrationResultsPath = Path.GetFullPath($"{_appData}/CalibrationResults");
 
     public static CameraMatrix? Calibrate(string id, string imagesPath)
     {
-        CheckCalibrationDirectory();
+        DirectoryManager.SetupDirectories();
 
         ProcessStartInfo startInfo = new ProcessStartInfo(Path.GetFullPath(_calibratorPath))
         {
@@ -23,21 +22,13 @@ public static class Calibration
         Process? process = Process.Start(startInfo);
         process?.WaitForExit();
 
-        return JsonConvert.DeserializeObject<CameraMatrix>(File.ReadAllText($"{_calibrationResultsPath}/{id}.json"));
-    }
-
-    public static void CheckCalibrationDirectory()
-    {
-        if (!Directory.Exists(_calibrationResultsPath))
-        {
-            Directory.CreateDirectory(_calibrationResultsPath);
-        }
+        return JsonConvert.DeserializeObject<CameraMatrix>(File.ReadAllText($"{DirectoryManager.CalibrationResults}/{id}.json"));
     }
 
     public static List<CameraMatrix> GetAvailableCalibrations()
     {
         List<CameraMatrix> calibrations = new List<CameraMatrix>();
-        foreach (string file in Directory.GetFiles(Path.GetFullPath(_calibrationResultsPath)))
+        foreach (string file in Directory.GetFiles(Path.GetFullPath(DirectoryManager.CalibrationResults)))
         {
             if (!file.Contains(".json"))
             {

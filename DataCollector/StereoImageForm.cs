@@ -2,6 +2,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using Newtonsoft.Json;
 using PhotogrammetryMath;
+using Shared;
 using System.Drawing.Drawing2D;
 
 namespace StereoImage;
@@ -23,13 +24,11 @@ public partial class StereoImageForm : Form
     private readonly PictureBox[] _pictures;
     private readonly int _maxImages = 2;
     private readonly int _minPointsToTriangulate = 5;
-    private static readonly string _appData = Path.GetFullPath($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/PhotogrammetryTCC");
-    private static readonly string _triangulationResults = Path.GetFullPath($"{_appData}/TriangulationResults");
 
     public StereoImageForm()
     {
         InitializeComponent();
-        InitializeDirectories();
+        DirectoryManager.SetupDirectories();
 
         TxtObjectName.Text = Guid.NewGuid().ToString();
 
@@ -56,19 +55,6 @@ public partial class StereoImageForm : Form
         };
 
         _pointPairs = new List<(Point a, Point b)>();
-    }
-
-    private static void InitializeDirectories()
-    {
-        string[] dirs = new string[] { _appData, _triangulationResults };
-
-        foreach (string dir in dirs)
-        {
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-        }
     }
 
     private void BtnCaptureImage_Click(object sender, EventArgs e) => SetStaticImages((Bitmap)LiveCamImage.Image.Clone());
@@ -172,10 +158,7 @@ public partial class StereoImageForm : Form
             result.Add(triangulationResult);
         }
 
-        File.WriteAllText(Path.Combine(_triangulationResults, $"{TxtObjectName.Text}.json"), JsonConvert.SerializeObject(result, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        }));
+        File.WriteAllText(Path.Combine(DirectoryManager.TriangulationResults, $"{TxtObjectName.Text}.json"), JsonConvert.SerializeObject(result));
     }
 
     private void Reset()

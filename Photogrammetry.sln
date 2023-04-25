@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Renderer", "Renderer\Render
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotogrammetryMath", "PhotogrammetryMath\PhotogrammetryMath.csproj", "{300D06F2-688A-45B8-9293-F59B5DDC1B67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calibrator", "Calibrator\Calibrator.csproj", "{59DB6B87-7E3B-4219-958E-B163E64D50CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calibrator", "Calibrator\Calibrator.csproj", "{59DB6B87-7E3B-4219-958E-B163E64D50CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{BEAD969E-60D1-4C2B-A832-4247B373517B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{59DB6B87-7E3B-4219-958E-B163E64D50CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59DB6B87-7E3B-4219-958E-B163E64D50CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59DB6B87-7E3B-4219-958E-B163E64D50CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
