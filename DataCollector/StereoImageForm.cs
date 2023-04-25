@@ -160,6 +160,7 @@ public partial class StereoImageForm : Form
         }
 
         File.WriteAllText(Path.Combine(DirectoryManager.TriangulationResults, $"{TxtObjectName.Text}.json"), JsonConvert.SerializeObject(result));
+        MessageBox.Show("Triangulation Successful");
     }
 
     private void Reset()

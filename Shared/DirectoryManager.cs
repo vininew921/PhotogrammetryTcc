@@ -7,21 +7,16 @@ public static class DirectoryManager
 
     public static string TriangulationResults { get; } = Path.GetFullPath($"{AppData}/TriangulationResults");
 
+    public static string TemporaryImages { get; } = Path.GetFullPath($"{AppData}/TempImages");
+
     public static void SetupDirectories()
     {
-        if (!Directory.Exists(AppData))
+        foreach (string dir in new string[] { AppData, CalibrationResults, TriangulationResults, TemporaryImages })
         {
-            Directory.CreateDirectory(AppData);
-        }
-
-        if (!Directory.Exists(CalibrationResults))
-        {
-            Directory.CreateDirectory(CalibrationResults);
-        }
-
-        if (!Directory.Exists(TriangulationResults))
-        {
-            Directory.CreateDirectory(TriangulationResults);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
         }
     }
 }

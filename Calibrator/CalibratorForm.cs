@@ -2,6 +2,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using PhotogrammetryMath;
 using PhotogrammetryMath.Models;
+using Shared;
 using System.Drawing.Imaging;
 
 namespace Calibrator;
@@ -14,14 +15,10 @@ public partial class CalibratorForm : Form
     private int _calibrationImageIndex = 0;
     private readonly int _maxImages = 9;
 
-    private static readonly string _tempPath = Path.GetFullPath("./Temp");
-    private static readonly string _appData = Path.GetFullPath($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/PhotogrammetryTCC");
-    private static readonly string _calibrationResults = Path.GetFullPath($"{_appData}/CalibrationResults");
-
     public CalibratorForm()
     {
         InitializeComponent();
-        InitializeDirectories();
+        DirectoryManager.SetupDirectories();
         InitializeProperties();
         InitializeComboBoxes();
     }
@@ -35,19 +32,6 @@ public partial class CalibratorForm : Form
         }
 
         CbbSourceCamera.SelectedIndex = 0;
-    }
-
-    private static void InitializeDirectories()
-    {
-        string[] dirs = new string[] { _tempPath, _appData, _calibrationResults };
-
-        foreach (string dir in dirs)
-        {
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-        }
     }
 
     private void InitializeProperties()
@@ -82,7 +66,7 @@ public partial class CalibratorForm : Form
     private void SetStaticImage(Bitmap image)
     {
         _calibrationImages[_calibrationImageIndex].Image = image;
-        image.Save($"{_tempPath}/{Guid.NewGuid()}.png", ImageFormat.Png);
+        image.Save($"{DirectoryManager.TemporaryImages}/{Guid.NewGuid()}.png", ImageFormat.Png);
         _calibrationImageIndex++;
     }
 
@@ -117,7 +101,7 @@ public partial class CalibratorForm : Form
 
         _calibrationImageIndex = 0;
 
-        foreach (string file in Directory.GetFiles(_tempPath))
+        foreach (string file in Directory.GetFiles(DirectoryManager.TemporaryImages))
         {
             File.Delete(file);
         }
@@ -155,12 +139,12 @@ public partial class CalibratorForm : Form
             return;
         }
 
-        CameraMatrix? cameraMatrix = Calibration.Calibrate(TxtAppId.Text, _tempPath);
+        CameraMatrix? cameraMatrix = Calibration.Calibrate(TxtAppId.Text);
         if (cameraMatrix == null)
         {
             throw new Exception("Error getting camera matrix");
         }
 
-        MessageBox.Show("Calibration was successful");
+        MessageBox.Show("Calibration Successful");
     }
 }

@@ -9,14 +9,14 @@ public static class Calibration
 {
     private static readonly string _calibratorPath = "./opencv_calibrator.exe";
 
-    public static CameraMatrix? Calibrate(string id, string imagesPath)
+    public static CameraMatrix? Calibrate(string id)
     {
         DirectoryManager.SetupDirectories();
 
         ProcessStartInfo startInfo = new ProcessStartInfo(Path.GetFullPath(_calibratorPath))
         {
             WindowStyle = ProcessWindowStyle.Hidden,
-            Arguments = $"--images {Path.GetFullPath(imagesPath)} --appid {id}"
+            Arguments = $"--images {DirectoryManager.TemporaryImages} --appid {id}"
         };
 
         Process? process = Process.Start(startInfo);
