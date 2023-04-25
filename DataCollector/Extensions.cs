@@ -1,4 +1,4 @@
-﻿using PhotogrammetryMath;
+﻿using PhotogrammetryMath.Models;
 
 namespace StereoImage;
 

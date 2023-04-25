@@ -1,4 +1,4 @@
-﻿namespace PhotogrammetryMath;
+﻿namespace PhotogrammetryMath.Models;
 
 public class Vector2
 {

@@ -1,4 +1,6 @@
-﻿namespace PhotogrammetryMath;
+﻿using PhotogrammetryMath.Models;
+
+namespace PhotogrammetryMath;
 
 /// <summary>
 /// Methods for triangulating the Stereo Normal case, where the difference between

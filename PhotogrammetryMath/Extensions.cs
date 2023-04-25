@@ -1,4 +1,6 @@
-﻿namespace PhotogrammetryMath;
+﻿using PhotogrammetryMath.Models;
+
+namespace PhotogrammetryMath;
 
 public static class Extensions
 {

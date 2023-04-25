@@ -3,6 +3,7 @@ using Engine.Entities;
 using Newtonsoft.Json;
 using OpenTK.Windowing.Common;
 using PhotogrammetryMath;
+using PhotogrammetryMath.Models;
 
 namespace Renderer;
 

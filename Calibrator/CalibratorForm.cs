@@ -1,6 +1,7 @@
 using AForge.Video;
 using AForge.Video.DirectShow;
 using PhotogrammetryMath;
+using PhotogrammetryMath.Models;
 using System.Drawing.Imaging;
 
 namespace Calibrator;

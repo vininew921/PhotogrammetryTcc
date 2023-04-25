@@ -2,6 +2,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using Newtonsoft.Json;
 using PhotogrammetryMath;
+using PhotogrammetryMath.Models;
 using Shared;
 using System.Drawing.Drawing2D;
 
