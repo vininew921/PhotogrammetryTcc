@@ -1,12 +1,11 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System;
+using Iot.Device.ServoMotor;
+using nanoFramework.Hardware.Esp32;
 using System.Device.Pwm;
 using System.Diagnostics;
 using System.Threading;
-using Iot.Device.ServoMotor;
-using nanoFramework.Hardware.Esp32;
 
 Debug.WriteLine("Hello Servo Motor!");
 
@@ -16,13 +15,13 @@ Configuration.SetPinFunction(13, DeviceFunction.PWM1);
 using PwmChannel pwmChannel = PwmChannel.CreateFromPin(13, 50);
 using ServoMotor servoMotor = new ServoMotor(
     pwmChannel,
-    160,
+    180,
     700,
     2200);
 
 // Samples.
-WritePulseWidth(pwmChannel, servoMotor);
-// WriteAngle(pwmChannel, servoMotor);
+//WritePulseWidth(pwmChannel, servoMotor);
+WriteAngle(pwmChannel, servoMotor);
 // Methods
 int pulseWidthValue;
 int angleValue;
@@ -49,10 +48,19 @@ void WriteAngle(PwmChannel pwmChannel, ServoMotor servoMotor)
 
     while (true)
     {
-        angleValue = angleValue == 0 ? 160 : 0;
+        // angleValue = angleValue == 0 ? 160 : 0;
 
-        servoMotor.WriteAngle(angleValue);
+        // servoMotor.WriteAngle(angleValue);
         Debug.WriteLine($"Duty Cycle: {pwmChannel.DutyCycle * 100.0}%");
+        servoMotor.WriteAngle(0);
+        Thread.Sleep(2000);
+        servoMotor.WriteAngle(45);
+        Thread.Sleep(2000);
+        servoMotor.WriteAngle(90);
+        Thread.Sleep(2000);
+        servoMotor.WriteAngle(135);
+        Thread.Sleep(2000);
+        servoMotor.WriteAngle(180);
         Thread.Sleep(2000);
     }
 
