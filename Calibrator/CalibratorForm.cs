@@ -10,7 +10,7 @@ namespace Calibrator;
 public partial class CalibratorForm : Form
 {
     private VideoCaptureDevice? _videoCaptureDevice = default!;
-    private FilterInfoCollection _filterInfoCollection = default!;
+    private List<FilterInfo> _filterInfoCollection = default!;
     private PictureBox[] _calibrationImages = default!;
     private int _calibrationImageIndex = 0;
     private readonly int _maxImages = 9;
@@ -25,13 +25,20 @@ public partial class CalibratorForm : Form
 
     private void InitializeComboBoxes()
     {
-        _filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-        foreach (FilterInfo filterInfo in _filterInfoCollection)
+        _filterInfoCollection = new List<FilterInfo>();
+        FilterInfoCollection fiCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
+        foreach (FilterInfo filterInfo in fiCollection)
         {
-            CbbSourceCamera.Items.Add(filterInfo.Name);
+            if (new VideoCaptureDevice(filterInfo.MonikerString).VideoCapabilities.Length > 0)
+            {
+                _filterInfoCollection.Add(filterInfo);
+                CbbSourceCamera.Items.Add(filterInfo.Name);
+            }
         }
 
         CbbSourceCamera.SelectedIndex = 0;
+        CbbCameraResolution.SelectedIndex = 0;
     }
 
     private void InitializeProperties()
@@ -55,10 +62,7 @@ public partial class CalibratorForm : Form
 
     private void SetLiveCamImage(Bitmap newImageBitmap)
     {
-        if (PbbLiveCamera.Image != null)
-        {
-            PbbLiveCamera.Image.Dispose();
-        }
+        PbbLiveCamera.Image?.Dispose();
 
         PbbLiveCamera.Image = newImageBitmap;
     }
@@ -76,7 +80,8 @@ public partial class CalibratorForm : Form
         {
             _videoCaptureDevice = new VideoCaptureDevice(_filterInfoCollection[CbbSourceCamera.SelectedIndex].MonikerString);
             _videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
-            _videoCaptureDevice.VideoResolution = _videoCaptureDevice.VideoCapabilities.First(x => x.FrameSize.Width == 1920 && x.FrameSize.Height == 1080);
+            _videoCaptureDevice.VideoResolution = _videoCaptureDevice.VideoCapabilities[CbbCameraResolution.SelectedIndex == -1 ? 0 : CbbCameraResolution.SelectedIndex];
+
             _videoCaptureDevice.Start();
         }
     }
@@ -87,6 +92,7 @@ public partial class CalibratorForm : Form
         {
             _videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
             _videoCaptureDevice.SignalToStop();
+            _videoCaptureDevice.WaitForStop();
             _videoCaptureDevice = null;
         }
     }
@@ -108,6 +114,19 @@ public partial class CalibratorForm : Form
     }
 
     private void CbbSourceCamera_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Reset();
+        ResetVideo();
+        InitVideo();
+
+        CbbCameraResolution.Items.Clear();
+        CbbCameraResolution.Items.AddRange(
+            _videoCaptureDevice!.VideoCapabilities.Select(x =>
+                $"{x.FrameSize.Width}x{x.FrameSize.Height} - {x.MaximumFrameRate}fps {x.BitCount}bpp")
+            .ToArray());
+    }
+
+    private void CbbCameraResolution_SelectedIndexChanged(object sender, EventArgs e)
     {
         Reset();
         ResetVideo();
@@ -139,11 +158,7 @@ public partial class CalibratorForm : Form
             return;
         }
 
-        CameraMatrix? cameraMatrix = Calibration.Calibrate(TxtAppId.Text);
-        if (cameraMatrix == null)
-        {
-            throw new Exception("Error getting camera matrix");
-        }
+        CameraMatrix? _ = Calibration.Calibrate(TxtAppId.Text) ?? throw new Exception("Error getting camera matrix");
 
         MessageBox.Show("Calibration Successful");
     }

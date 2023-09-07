@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StereoImage", "DataCollector\StereoImage.csproj", "{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageCollector", "ImageCollector\ImageCollector.csproj", "{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Renderer", "Renderer\Renderer.csproj", "{164E2935-1A0F-4ABE-A390-3360831B4E99}"
 EndProject
@@ -19,8 +19,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calibrator", "Calibrator\Calibrator.csproj", "{59DB6B87-7E3B-4219-958E-B163E64D50CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{BEAD969E-60D1-4C2B-A832-4247B373517B}"
-EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "StageEsp32", "StageEsp32\StageEsp32.nfproj", "{48C431DA-4D0C-47EA-8E1C-A42281855D32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,12 +50,6 @@ Global
 		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48C431DA-4D0C-47EA-8E1C-A42281855D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48C431DA-4D0C-47EA-8E1C-A42281855D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48C431DA-4D0C-47EA-8E1C-A42281855D32}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{48C431DA-4D0C-47EA-8E1C-A42281855D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48C431DA-4D0C-47EA-8E1C-A42281855D32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48C431DA-4D0C-47EA-8E1C-A42281855D32}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

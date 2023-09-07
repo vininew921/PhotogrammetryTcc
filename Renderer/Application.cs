@@ -21,7 +21,7 @@ internal class Application : EngineApplication
 
     public override void OnLoad()
     {
-        List<Vector3>? resultFromFile = JsonConvert.DeserializeObject<List<Vector3>>(File.ReadAllText(Path.Combine(_triangulationResults, "teste.json")));
+        List<Vector3>? resultFromFile = JsonConvert.DeserializeObject<List<Vector3>>(File.ReadAllText(Path.Combine(_triangulationResults, "triangulacao-demonstracao.json")));
         if (resultFromFile != null)
         {
             foreach (Vector3 point in resultFromFile)

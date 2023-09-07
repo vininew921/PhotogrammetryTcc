@@ -28,237 +28,258 @@ partial class CalibratorForm
     /// </summary>
     private void InitializeComponent()
     {
-            this.PbbLiveCamera = new System.Windows.Forms.PictureBox();
-            this.LblLiveCamera = new System.Windows.Forms.Label();
-            this.CbbSourceCamera = new System.Windows.Forms.ComboBox();
-            this.BtnTakePicture = new System.Windows.Forms.Button();
-            this.TxtAppId = new System.Windows.Forms.TextBox();
-            this.LblSourceCamera = new System.Windows.Forms.Label();
-            this.LblAppId = new System.Windows.Forms.Label();
-            this.BtnCalibrate = new System.Windows.Forms.Button();
-            this.PbbImage1 = new System.Windows.Forms.PictureBox();
-            this.PbbImage2 = new System.Windows.Forms.PictureBox();
-            this.PbbImage3 = new System.Windows.Forms.PictureBox();
-            this.PbbImage6 = new System.Windows.Forms.PictureBox();
-            this.PbbImage5 = new System.Windows.Forms.PictureBox();
-            this.PbbImage4 = new System.Windows.Forms.PictureBox();
-            this.PbbImage9 = new System.Windows.Forms.PictureBox();
-            this.PbbImage8 = new System.Windows.Forms.PictureBox();
-            this.PbbImage7 = new System.Windows.Forms.PictureBox();
-            this.BtnReset = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbLiveCamera)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage7)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // PbbLiveCamera
-            // 
-            this.PbbLiveCamera.Location = new System.Drawing.Point(62, 46);
-            this.PbbLiveCamera.Name = "PbbLiveCamera";
-            this.PbbLiveCamera.Size = new System.Drawing.Size(320, 180);
-            this.PbbLiveCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbLiveCamera.TabIndex = 0;
-            this.PbbLiveCamera.TabStop = false;
-            // 
-            // LblLiveCamera
-            // 
-            this.LblLiveCamera.AutoSize = true;
-            this.LblLiveCamera.Location = new System.Drawing.Point(62, 28);
-            this.LblLiveCamera.Name = "LblLiveCamera";
-            this.LblLiveCamera.Size = new System.Drawing.Size(72, 15);
-            this.LblLiveCamera.TabIndex = 1;
-            this.LblLiveCamera.Text = "Live Camera";
-            // 
-            // CbbSourceCamera
-            // 
-            this.CbbSourceCamera.FormattingEnabled = true;
-            this.CbbSourceCamera.Location = new System.Drawing.Point(62, 258);
-            this.CbbSourceCamera.Name = "CbbSourceCamera";
-            this.CbbSourceCamera.Size = new System.Drawing.Size(320, 23);
-            this.CbbSourceCamera.TabIndex = 2;
-            this.CbbSourceCamera.SelectedIndexChanged += new System.EventHandler(this.CbbSourceCamera_SelectedIndexChanged);
-            // 
-            // BtnTakePicture
-            // 
-            this.BtnTakePicture.Location = new System.Drawing.Point(62, 287);
-            this.BtnTakePicture.Name = "BtnTakePicture";
-            this.BtnTakePicture.Size = new System.Drawing.Size(320, 23);
-            this.BtnTakePicture.TabIndex = 3;
-            this.BtnTakePicture.Text = "Take Next Picture";
-            this.BtnTakePicture.UseVisualStyleBackColor = true;
-            this.BtnTakePicture.Click += new System.EventHandler(this.BtnTakePicture_Click);
-            // 
-            // TxtAppId
-            // 
-            this.TxtAppId.Location = new System.Drawing.Point(62, 362);
-            this.TxtAppId.Name = "TxtAppId";
-            this.TxtAppId.Size = new System.Drawing.Size(320, 23);
-            this.TxtAppId.TabIndex = 4;
-            // 
-            // LblSourceCamera
-            // 
-            this.LblSourceCamera.AutoSize = true;
-            this.LblSourceCamera.Location = new System.Drawing.Point(62, 240);
-            this.LblSourceCamera.Name = "LblSourceCamera";
-            this.LblSourceCamera.Size = new System.Drawing.Size(48, 15);
-            this.LblSourceCamera.TabIndex = 5;
-            this.LblSourceCamera.Text = "Camera";
-            // 
-            // LblAppId
-            // 
-            this.LblAppId.AutoSize = true;
-            this.LblAppId.Location = new System.Drawing.Point(62, 344);
-            this.LblAppId.Name = "LblAppId";
-            this.LblAppId.Size = new System.Drawing.Size(43, 15);
-            this.LblAppId.TabIndex = 6;
-            this.LblAppId.Text = "App ID";
-            // 
-            // BtnCalibrate
-            // 
-            this.BtnCalibrate.Location = new System.Drawing.Point(62, 391);
-            this.BtnCalibrate.Name = "BtnCalibrate";
-            this.BtnCalibrate.Size = new System.Drawing.Size(320, 23);
-            this.BtnCalibrate.TabIndex = 7;
-            this.BtnCalibrate.Text = "Calibrate";
-            this.BtnCalibrate.UseVisualStyleBackColor = true;
-            this.BtnCalibrate.Click += new System.EventHandler(this.BtnCalibrate_Click);
-            // 
-            // PbbImage1
-            // 
-            this.PbbImage1.Location = new System.Drawing.Point(510, 46);
-            this.PbbImage1.Name = "PbbImage1";
-            this.PbbImage1.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage1.TabIndex = 8;
-            this.PbbImage1.TabStop = false;
-            // 
-            // PbbImage2
-            // 
-            this.PbbImage2.Location = new System.Drawing.Point(836, 46);
-            this.PbbImage2.Name = "PbbImage2";
-            this.PbbImage2.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage2.TabIndex = 9;
-            this.PbbImage2.TabStop = false;
-            // 
-            // PbbImage3
-            // 
-            this.PbbImage3.Location = new System.Drawing.Point(1162, 46);
-            this.PbbImage3.Name = "PbbImage3";
-            this.PbbImage3.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage3.TabIndex = 10;
-            this.PbbImage3.TabStop = false;
-            // 
-            // PbbImage6
-            // 
-            this.PbbImage6.Location = new System.Drawing.Point(1162, 232);
-            this.PbbImage6.Name = "PbbImage6";
-            this.PbbImage6.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage6.TabIndex = 13;
-            this.PbbImage6.TabStop = false;
-            // 
-            // PbbImage5
-            // 
-            this.PbbImage5.Location = new System.Drawing.Point(836, 232);
-            this.PbbImage5.Name = "PbbImage5";
-            this.PbbImage5.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage5.TabIndex = 12;
-            this.PbbImage5.TabStop = false;
-            // 
-            // PbbImage4
-            // 
-            this.PbbImage4.Location = new System.Drawing.Point(510, 232);
-            this.PbbImage4.Name = "PbbImage4";
-            this.PbbImage4.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage4.TabIndex = 11;
-            this.PbbImage4.TabStop = false;
-            // 
-            // PbbImage9
-            // 
-            this.PbbImage9.Location = new System.Drawing.Point(1162, 418);
-            this.PbbImage9.Name = "PbbImage9";
-            this.PbbImage9.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage9.TabIndex = 16;
-            this.PbbImage9.TabStop = false;
-            // 
-            // PbbImage8
-            // 
-            this.PbbImage8.Location = new System.Drawing.Point(836, 418);
-            this.PbbImage8.Name = "PbbImage8";
-            this.PbbImage8.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage8.TabIndex = 15;
-            this.PbbImage8.TabStop = false;
-            // 
-            // PbbImage7
-            // 
-            this.PbbImage7.Location = new System.Drawing.Point(510, 418);
-            this.PbbImage7.Name = "PbbImage7";
-            this.PbbImage7.Size = new System.Drawing.Size(320, 180);
-            this.PbbImage7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbbImage7.TabIndex = 14;
-            this.PbbImage7.TabStop = false;
-            // 
-            // BtnReset
-            // 
-            this.BtnReset.Location = new System.Drawing.Point(62, 575);
-            this.BtnReset.Name = "BtnReset";
-            this.BtnReset.Size = new System.Drawing.Size(320, 23);
-            this.BtnReset.TabIndex = 17;
-            this.BtnReset.Text = "Reset";
-            this.BtnReset.UseVisualStyleBackColor = true;
-            this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
-            // 
-            // CalibratorForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1569, 625);
-            this.Controls.Add(this.BtnReset);
-            this.Controls.Add(this.PbbImage9);
-            this.Controls.Add(this.PbbImage8);
-            this.Controls.Add(this.PbbImage7);
-            this.Controls.Add(this.PbbImage6);
-            this.Controls.Add(this.PbbImage5);
-            this.Controls.Add(this.PbbImage4);
-            this.Controls.Add(this.PbbImage3);
-            this.Controls.Add(this.PbbImage2);
-            this.Controls.Add(this.PbbImage1);
-            this.Controls.Add(this.BtnCalibrate);
-            this.Controls.Add(this.LblAppId);
-            this.Controls.Add(this.LblSourceCamera);
-            this.Controls.Add(this.TxtAppId);
-            this.Controls.Add(this.BtnTakePicture);
-            this.Controls.Add(this.CbbSourceCamera);
-            this.Controls.Add(this.LblLiveCamera);
-            this.Controls.Add(this.PbbLiveCamera);
-            this.Name = "CalibratorForm";
-            this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.PbbLiveCamera)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbbImage7)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+        PbbLiveCamera = new PictureBox();
+        LblLiveCamera = new Label();
+        CbbSourceCamera = new ComboBox();
+        BtnTakePicture = new Button();
+        TxtAppId = new TextBox();
+        LblSourceCamera = new Label();
+        LblAppId = new Label();
+        BtnCalibrate = new Button();
+        PbbImage1 = new PictureBox();
+        PbbImage2 = new PictureBox();
+        PbbImage3 = new PictureBox();
+        PbbImage6 = new PictureBox();
+        PbbImage5 = new PictureBox();
+        PbbImage4 = new PictureBox();
+        PbbImage9 = new PictureBox();
+        PbbImage8 = new PictureBox();
+        PbbImage7 = new PictureBox();
+        BtnReset = new Button();
+        lblCameraResolution = new Label();
+        CbbCameraResolution = new ComboBox();
+        ((System.ComponentModel.ISupportInitialize)PbbLiveCamera).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage1).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage2).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage3).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage6).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage5).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage4).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage9).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage8).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage7).BeginInit();
+        SuspendLayout();
+        // 
+        // PbbLiveCamera
+        // 
+        PbbLiveCamera.Location = new Point(62, 46);
+        PbbLiveCamera.Name = "PbbLiveCamera";
+        PbbLiveCamera.Size = new Size(320, 180);
+        PbbLiveCamera.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbLiveCamera.TabIndex = 0;
+        PbbLiveCamera.TabStop = false;
+        // 
+        // LblLiveCamera
+        // 
+        LblLiveCamera.AutoSize = true;
+        LblLiveCamera.Location = new Point(62, 28);
+        LblLiveCamera.Name = "LblLiveCamera";
+        LblLiveCamera.Size = new Size(72, 15);
+        LblLiveCamera.TabIndex = 1;
+        LblLiveCamera.Text = "Live Camera";
+        // 
+        // CbbSourceCamera
+        // 
+        CbbSourceCamera.FormattingEnabled = true;
+        CbbSourceCamera.Location = new Point(62, 258);
+        CbbSourceCamera.Name = "CbbSourceCamera";
+        CbbSourceCamera.Size = new Size(320, 23);
+        CbbSourceCamera.TabIndex = 2;
+        CbbSourceCamera.SelectedIndexChanged += CbbSourceCamera_SelectedIndexChanged;
+        // 
+        // BtnTakePicture
+        // 
+        BtnTakePicture.Location = new Point(62, 287);
+        BtnTakePicture.Name = "BtnTakePicture";
+        BtnTakePicture.Size = new Size(320, 23);
+        BtnTakePicture.TabIndex = 3;
+        BtnTakePicture.Text = "Take Next Picture";
+        BtnTakePicture.UseVisualStyleBackColor = true;
+        BtnTakePicture.Click += BtnTakePicture_Click;
+        // 
+        // TxtAppId
+        // 
+        TxtAppId.Location = new Point(62, 397);
+        TxtAppId.Name = "TxtAppId";
+        TxtAppId.Size = new Size(320, 23);
+        TxtAppId.TabIndex = 4;
+        // 
+        // LblSourceCamera
+        // 
+        LblSourceCamera.AutoSize = true;
+        LblSourceCamera.Location = new Point(62, 240);
+        LblSourceCamera.Name = "LblSourceCamera";
+        LblSourceCamera.Size = new Size(48, 15);
+        LblSourceCamera.TabIndex = 5;
+        LblSourceCamera.Text = "Camera";
+        // 
+        // LblAppId
+        // 
+        LblAppId.AutoSize = true;
+        LblAppId.Location = new Point(62, 379);
+        LblAppId.Name = "LblAppId";
+        LblAppId.Size = new Size(43, 15);
+        LblAppId.TabIndex = 6;
+        LblAppId.Text = "App ID";
+        // 
+        // BtnCalibrate
+        // 
+        BtnCalibrate.Location = new Point(62, 426);
+        BtnCalibrate.Name = "BtnCalibrate";
+        BtnCalibrate.Size = new Size(320, 23);
+        BtnCalibrate.TabIndex = 7;
+        BtnCalibrate.Text = "Calibrate";
+        BtnCalibrate.UseVisualStyleBackColor = true;
+        BtnCalibrate.Click += BtnCalibrate_Click;
+        // 
+        // PbbImage1
+        // 
+        PbbImage1.Location = new Point(510, 46);
+        PbbImage1.Name = "PbbImage1";
+        PbbImage1.Size = new Size(320, 180);
+        PbbImage1.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage1.TabIndex = 8;
+        PbbImage1.TabStop = false;
+        // 
+        // PbbImage2
+        // 
+        PbbImage2.Location = new Point(836, 46);
+        PbbImage2.Name = "PbbImage2";
+        PbbImage2.Size = new Size(320, 180);
+        PbbImage2.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage2.TabIndex = 9;
+        PbbImage2.TabStop = false;
+        // 
+        // PbbImage3
+        // 
+        PbbImage3.Location = new Point(1162, 46);
+        PbbImage3.Name = "PbbImage3";
+        PbbImage3.Size = new Size(320, 180);
+        PbbImage3.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage3.TabIndex = 10;
+        PbbImage3.TabStop = false;
+        // 
+        // PbbImage6
+        // 
+        PbbImage6.Location = new Point(1162, 232);
+        PbbImage6.Name = "PbbImage6";
+        PbbImage6.Size = new Size(320, 180);
+        PbbImage6.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage6.TabIndex = 13;
+        PbbImage6.TabStop = false;
+        // 
+        // PbbImage5
+        // 
+        PbbImage5.Location = new Point(836, 232);
+        PbbImage5.Name = "PbbImage5";
+        PbbImage5.Size = new Size(320, 180);
+        PbbImage5.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage5.TabIndex = 12;
+        PbbImage5.TabStop = false;
+        // 
+        // PbbImage4
+        // 
+        PbbImage4.Location = new Point(510, 232);
+        PbbImage4.Name = "PbbImage4";
+        PbbImage4.Size = new Size(320, 180);
+        PbbImage4.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage4.TabIndex = 11;
+        PbbImage4.TabStop = false;
+        // 
+        // PbbImage9
+        // 
+        PbbImage9.Location = new Point(1162, 418);
+        PbbImage9.Name = "PbbImage9";
+        PbbImage9.Size = new Size(320, 180);
+        PbbImage9.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage9.TabIndex = 16;
+        PbbImage9.TabStop = false;
+        // 
+        // PbbImage8
+        // 
+        PbbImage8.Location = new Point(836, 418);
+        PbbImage8.Name = "PbbImage8";
+        PbbImage8.Size = new Size(320, 180);
+        PbbImage8.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage8.TabIndex = 15;
+        PbbImage8.TabStop = false;
+        // 
+        // PbbImage7
+        // 
+        PbbImage7.Location = new Point(510, 418);
+        PbbImage7.Name = "PbbImage7";
+        PbbImage7.Size = new Size(320, 180);
+        PbbImage7.SizeMode = PictureBoxSizeMode.Zoom;
+        PbbImage7.TabIndex = 14;
+        PbbImage7.TabStop = false;
+        // 
+        // BtnReset
+        // 
+        BtnReset.Location = new Point(62, 575);
+        BtnReset.Name = "BtnReset";
+        BtnReset.Size = new Size(320, 23);
+        BtnReset.TabIndex = 17;
+        BtnReset.Text = "Reset";
+        BtnReset.UseVisualStyleBackColor = true;
+        BtnReset.Click += BtnReset_Click;
+        // 
+        // lblCameraResolution
+        // 
+        lblCameraResolution.AutoSize = true;
+        lblCameraResolution.Location = new Point(62, 313);
+        lblCameraResolution.Name = "lblCameraResolution";
+        lblCameraResolution.Size = new Size(107, 15);
+        lblCameraResolution.TabIndex = 19;
+        lblCameraResolution.Text = "Camera Resolution";
+        // 
+        // CbbCameraResolution
+        // 
+        CbbCameraResolution.FormattingEnabled = true;
+        CbbCameraResolution.Location = new Point(62, 331);
+        CbbCameraResolution.Name = "CbbCameraResolution";
+        CbbCameraResolution.Size = new Size(320, 23);
+        CbbCameraResolution.TabIndex = 18;
+        CbbCameraResolution.SelectedIndexChanged += CbbCameraResolution_SelectedIndexChanged;
+        // 
+        // CalibratorForm
+        // 
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(1569, 625);
+        Controls.Add(lblCameraResolution);
+        Controls.Add(CbbCameraResolution);
+        Controls.Add(BtnReset);
+        Controls.Add(PbbImage9);
+        Controls.Add(PbbImage8);
+        Controls.Add(PbbImage7);
+        Controls.Add(PbbImage6);
+        Controls.Add(PbbImage5);
+        Controls.Add(PbbImage4);
+        Controls.Add(PbbImage3);
+        Controls.Add(PbbImage2);
+        Controls.Add(PbbImage1);
+        Controls.Add(BtnCalibrate);
+        Controls.Add(LblAppId);
+        Controls.Add(LblSourceCamera);
+        Controls.Add(TxtAppId);
+        Controls.Add(BtnTakePicture);
+        Controls.Add(CbbSourceCamera);
+        Controls.Add(LblLiveCamera);
+        Controls.Add(PbbLiveCamera);
+        Name = "CalibratorForm";
+        Text = "Form1";
+        ((System.ComponentModel.ISupportInitialize)PbbLiveCamera).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage1).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage2).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage3).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage6).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage5).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage4).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage9).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage8).EndInit();
+        ((System.ComponentModel.ISupportInitialize)PbbImage7).EndInit();
+        ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -281,4 +302,6 @@ partial class CalibratorForm
     private PictureBox PbbImage8;
     private PictureBox PbbImage7;
     private Button BtnReset;
+    private Label lblCameraResolution;
+    private ComboBox CbbCameraResolution;
 }
