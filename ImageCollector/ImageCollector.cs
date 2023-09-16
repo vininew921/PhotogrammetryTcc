@@ -1,8 +1,7 @@
 using AForge.Video;
 using AForge.Video.DirectShow;
 using ImageCollector;
-using PhotogrammetryMath;
-using PhotogrammetryMath.Models;
+using Photogrammetry;
 using Shared;
 
 namespace StereoImage;
@@ -11,7 +10,6 @@ public partial class ImageCollector : Form
 {
     private VideoCaptureDevice? _videoCaptureDevice = default!;
     private List<FilterInfo> _filterInfoCollection = default!;
-    private CameraMatrix _cameraMatrix = default!;
 
     public ImageCollector()
     {
@@ -32,6 +30,7 @@ public partial class ImageCollector : Form
     private void InitializeComboBoxes()
     {
         CbbCalibrations.Items.AddRange(Calibration.GetAvailableCalibrations().ToArray());
+        CbbSerialPort.Items.AddRange(RotatingBoard.AVAILABLE_PORTS);
 
         _filterInfoCollection = new List<FilterInfo>();
         FilterInfoCollection fiCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
@@ -48,6 +47,7 @@ public partial class ImageCollector : Form
         CbbSourceCamera.SelectedIndex = 0;
         CbbCameraResolution.SelectedIndex = 0;
         CbbCalibrations.SelectedIndex = 0;
+        CbbSerialPort.SelectedIndex = 0;
     }
 
     private void StartProcess()
@@ -56,7 +56,7 @@ public partial class ImageCollector : Form
         float cameraAngle = float.Parse(TxtCameraAngle.Text);
         float imageAngle = float.Parse(TxtImageAngle.Text);
 
-        BlockInputs(false);
+        EnableInputs(false);
 
         ImageProcessing.Initialize(distanceFromObject, cameraAngle, imageAngle, TxtObjectName.Text);
 
@@ -64,20 +64,33 @@ public partial class ImageCollector : Form
 
         for (int i = 0; i < imageQty; i++)
         {
-            ImageProcessing.ProcessImage((Bitmap)LiveCamImage.Image.Clone(), i);
+            LblProcessStatus.Text = $"Taking picture {i + 1} of {imageQty + 1}";
+
+            ImageProcessing.CaptureImage((Bitmap)LiveCamImage.Image.Clone(), i);
             RotatingBoard.Rotate(imageAngle);
         }
 
-        BlockInputs(true);
+        LblProcessStatus.Text = $"Processing images with python";
+
+        ImageProcessing.ProcessImages(CbbCalibrations.SelectedText);
+
+        EnableInputs(true);
     }
 
-    private void BlockInputs(bool unlock)
+    private void EnableInputs(bool enable)
     {
-        BtnStartProcess.Enabled = unlock;
-        TxtCameraAngle.Enabled = unlock;
-        TxtCameraDistance.Enabled = unlock;
-        TxtImageAngle.Enabled = unlock;
-        TxtObjectName.Enabled = unlock;
+        BtnStartProcess.Enabled = enable;
+        BtnTestSerialPort.Enabled = enable;
+
+        CbbSerialPort.Enabled = enable;
+        CbbCalibrations.Enabled = enable;
+        CbbCameraResolution.Enabled = enable;
+        CbbSourceCamera.Enabled = enable;
+
+        TxtCameraAngle.Enabled = enable;
+        TxtCameraDistance.Enabled = enable;
+        TxtImageAngle.Enabled = enable;
+        TxtObjectName.Enabled = enable;
     }
 
     private void VideoCaptureDevice_NewFrame(object sender, NewFrameEventArgs e) => SetLiveCamImage((Bitmap)e.Frame.Clone());
@@ -87,20 +100,6 @@ public partial class ImageCollector : Form
         LiveCamImage.Image?.Dispose();
         LiveCamImage.Image = newImageBitmap;
     }
-
-    private void SetProcessedImage(Bitmap newImageBitmap)
-    {
-        PbProcessedImage.Image?.Dispose();
-        PbProcessedImage.Image = newImageBitmap;
-    }
-
-    private void SetCalibrationMatrix(int index)
-    {
-        _cameraMatrix = (CameraMatrix)CbbCalibrations.Items[index];
-        LblCameraMatrixValue.Text = _cameraMatrix.ToMatrixString();
-    }
-
-    private void Reset() => PbProcessedImage?.Image?.Dispose();
 
     private void Done()
     {
@@ -128,7 +127,6 @@ public partial class ImageCollector : Form
 
     private void CbbSourceCamera_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Reset();
         Done();
         InitVideo();
 
@@ -141,7 +139,6 @@ public partial class ImageCollector : Form
 
     private void CbbCameraResolution_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Reset();
         Done();
         InitVideo();
     }
@@ -152,9 +149,23 @@ public partial class ImageCollector : Form
         Done();
     }
 
-    private void BtnReset_Click(object sender, EventArgs e) => Reset();
-
-    private void CbbCalibrations_SelectedIndexChanged(object sender, EventArgs e) => SetCalibrationMatrix(CbbCalibrations.SelectedIndex);
-
     private void BtnStartProcess_Click(object sender, EventArgs e) => StartProcess();
+
+    private void CbbSerialPort_SelectedIndexChanged(object sender, EventArgs e) => RotatingBoard.SetPort(CbbSerialPort.SelectedIndex);
+
+    private void BtnTestSerialPort_Click(object sender, EventArgs e)
+    {
+        EnableInputs(false);
+
+        try
+        {
+            RotatingBoard.Rotate(360);
+        }
+        catch
+        {
+            MessageBox.Show("Error sending serial message to selected port");
+        }
+
+        EnableInputs(true);
+    }
 }

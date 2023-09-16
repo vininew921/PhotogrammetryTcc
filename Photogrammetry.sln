@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{A2654560-6A13-460C-B60D-741FBD380A90}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86B7935E-D9E4-4AFD-BD36-3E020797FC89}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -12,13 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageCollector", "ImageCollector\ImageCollector.csproj", "{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Renderer", "Renderer\Renderer.csproj", "{164E2935-1A0F-4ABE-A390-3360831B4E99}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotogrammetryMath", "PhotogrammetryMath\PhotogrammetryMath.csproj", "{300D06F2-688A-45B8-9293-F59B5DDC1B67}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calibrator", "Calibrator\Calibrator.csproj", "{59DB6B87-7E3B-4219-958E-B163E64D50CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{BEAD969E-60D1-4C2B-A832-4247B373517B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Photogrammetry", "Photogrammetry\Photogrammetry.csproj", "{3F89F04C-460B-45C3-8081-E3711B9572BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,22 +22,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2654560-6A13-460C-B60D-741FBD380A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2654560-6A13-460C-B60D-741FBD380A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2654560-6A13-460C-B60D-741FBD380A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2654560-6A13-460C-B60D-741FBD380A90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BAE3F33-8F13-416A-97C2-57EC1688EC2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{164E2935-1A0F-4ABE-A390-3360831B4E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{164E2935-1A0F-4ABE-A390-3360831B4E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{164E2935-1A0F-4ABE-A390-3360831B4E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{164E2935-1A0F-4ABE-A390-3360831B4E99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{300D06F2-688A-45B8-9293-F59B5DDC1B67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{300D06F2-688A-45B8-9293-F59B5DDC1B67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{300D06F2-688A-45B8-9293-F59B5DDC1B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{300D06F2-688A-45B8-9293-F59B5DDC1B67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59DB6B87-7E3B-4219-958E-B163E64D50CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59DB6B87-7E3B-4219-958E-B163E64D50CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59DB6B87-7E3B-4219-958E-B163E64D50CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,6 +34,10 @@ Global
 		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEAD969E-60D1-4C2B-A832-4247B373517B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F89F04C-460B-45C3-8081-E3711B9572BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F89F04C-460B-45C3-8081-E3711B9572BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F89F04C-460B-45C3-8081-E3711B9572BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F89F04C-460B-45C3-8081-E3711B9572BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

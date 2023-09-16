@@ -15,7 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhotogrammetryMath\PhotogrammetryMath.csproj" />
+    <ProjectReference Include="..\Photogrammetry\Photogrammetry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="image_processing.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

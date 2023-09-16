@@ -1,7 +1,6 @@
 using AForge.Video;
 using AForge.Video.DirectShow;
-using PhotogrammetryMath;
-using PhotogrammetryMath.Models;
+using Photogrammetry;
 using Shared;
 using System.Drawing.Imaging;
 
@@ -158,7 +157,7 @@ public partial class CalibratorForm : Form
             return;
         }
 
-        CameraMatrix? _ = Calibration.Calibrate(TxtAppId.Text) ?? throw new Exception("Error getting camera matrix");
+        Calibration.Calibrate(TxtAppId.Text);
 
         MessageBox.Show("Calibration Successful");
     }

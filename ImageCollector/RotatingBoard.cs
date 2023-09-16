@@ -4,37 +4,11 @@ namespace ImageCollector;
 
 internal static class RotatingBoard
 {
-    private static readonly SerialPort? _serialPort;
+    private static SerialPort? _serialPort = null;
 
-    static RotatingBoard()
-    {
-        string[] ports = SerialPort.GetPortNames();
+    public static readonly string[] AVAILABLE_PORTS = SerialPort.GetPortNames();
 
-        if (ports.Length == 0)
-        {
-            throw new Exception("No COM ports found");
-        }
-
-        foreach (string port in ports)
-        {
-            try
-            {
-                _serialPort = new SerialPort(port, 115200);
-                _serialPort.Open();
-                _serialPort.Close();
-            }
-            catch (Exception e)
-            {
-                _serialPort = null;
-                continue;
-            }
-        }
-
-        if (_serialPort == null)
-        {
-            throw new Exception("No valid serial ports found");
-        }
-    }
+    public static void SetPort(int index) => _serialPort = new SerialPort(AVAILABLE_PORTS[index], 115200);
 
     public static void Rotate(float degrees)
     {
@@ -43,11 +17,13 @@ internal static class RotatingBoard
             throw new Exception("Serial port is null");
         }
 
+        _serialPort.ReadTimeout = 5000;
         _serialPort.Open();
 
         _serialPort.WriteLine(degrees.ToString("F2"));
 
         Console.WriteLine($"Serial: {_serialPort.ReadLine()}");
+        Thread.Sleep(1000);
         Console.WriteLine($"Serial: {_serialPort.ReadLine()}");
 
         _serialPort.Close();
