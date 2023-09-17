@@ -48,7 +48,10 @@ partial class ImageCollector
         CbbSerialPort = new ComboBox();
         BtnTestSerialPort = new Button();
         LblProcessStatus = new Label();
+        TrbFocus = new TrackBar();
+        LblFocus = new Label();
         ((System.ComponentModel.ISupportInitialize)LiveCamImage).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)TrbFocus).BeginInit();
         SuspendLayout();
         // 
         // LiveCamImage
@@ -174,7 +177,7 @@ partial class ImageCollector
         // 
         // BtnStartProcess
         // 
-        BtnStartProcess.Location = new Point(12, 389);
+        BtnStartProcess.Location = new Point(12, 427);
         BtnStartProcess.Name = "BtnStartProcess";
         BtnStartProcess.Size = new Size(668, 23);
         BtnStartProcess.TabIndex = 34;
@@ -204,7 +207,7 @@ partial class ImageCollector
         // 
         LblSerialPort.AutoSize = true;
         LblSerialPort.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        LblSerialPort.Location = new Point(12, 289);
+        LblSerialPort.Location = new Point(12, 363);
         LblSerialPort.Name = "LblSerialPort";
         LblSerialPort.Size = new Size(65, 15);
         LblSerialPort.TabIndex = 38;
@@ -214,7 +217,7 @@ partial class ImageCollector
         // 
         CbbSerialPort.DropDownStyle = ComboBoxStyle.DropDownList;
         CbbSerialPort.FormattingEnabled = true;
-        CbbSerialPort.Location = new Point(12, 307);
+        CbbSerialPort.Location = new Point(12, 381);
         CbbSerialPort.Name = "CbbSerialPort";
         CbbSerialPort.Size = new Size(215, 23);
         CbbSerialPort.TabIndex = 37;
@@ -222,7 +225,7 @@ partial class ImageCollector
         // 
         // BtnTestSerialPort
         // 
-        BtnTestSerialPort.Location = new Point(233, 306);
+        BtnTestSerialPort.Location = new Point(233, 380);
         BtnTestSerialPort.Name = "BtnTestSerialPort";
         BtnTestSerialPort.Size = new Size(99, 23);
         BtnTestSerialPort.TabIndex = 39;
@@ -232,17 +235,38 @@ partial class ImageCollector
         // 
         // LblProcessStatus
         // 
-        LblProcessStatus.Location = new Point(12, 353);
+        LblProcessStatus.Location = new Point(12, 403);
         LblProcessStatus.Name = "LblProcessStatus";
         LblProcessStatus.Size = new Size(668, 21);
         LblProcessStatus.TabIndex = 40;
         LblProcessStatus.TextAlign = ContentAlignment.MiddleCenter;
         // 
+        // TrbFocus
+        // 
+        TrbFocus.Location = new Point(12, 307);
+        TrbFocus.Maximum = 100;
+        TrbFocus.Name = "TrbFocus";
+        TrbFocus.Size = new Size(320, 45);
+        TrbFocus.TabIndex = 41;
+        TrbFocus.Scroll += TrbFocus_Scroll;
+        // 
+        // LblFocus
+        // 
+        LblFocus.AutoSize = true;
+        LblFocus.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+        LblFocus.Location = new Point(15, 289);
+        LblFocus.Name = "LblFocus";
+        LblFocus.Size = new Size(56, 15);
+        LblFocus.TabIndex = 42;
+        LblFocus.Text = "Focus - 0";
+        // 
         // ImageCollector
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(704, 433);
+        ClientSize = new Size(705, 476);
+        Controls.Add(LblFocus);
+        Controls.Add(TrbFocus);
         Controls.Add(LblProcessStatus);
         Controls.Add(BtnTestSerialPort);
         Controls.Add(LblSerialPort);
@@ -266,6 +290,7 @@ partial class ImageCollector
         Name = "ImageCollector";
         Text = "Camera - Fotogrametria";
         ((System.ComponentModel.ISupportInitialize)LiveCamImage).EndInit();
+        ((System.ComponentModel.ISupportInitialize)TrbFocus).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -296,4 +321,6 @@ partial class ImageCollector
     private ComboBox CbbSerialPort;
     private Button BtnTestSerialPort;
     private Label LblProcessStatus;
+    private TrackBar TrbFocus;
+    private Label LblFocus;
 }

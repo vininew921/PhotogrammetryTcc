@@ -12,7 +12,8 @@ internal static class ImageProcessing
     public static string _appId = string.Empty;
     public static string _appImagesDir = string.Empty;
 
-    private static readonly string _imageProcessorPath = "./calibration.py";
+    private static readonly string _imageProcessorPath = "./image_processing.py";
+    private static readonly string _commonPointsPath = "./common_points.py";
 
     public static void Initialize(float distanceFromObject, float cameraAngle, float imageAngle, string appId)
     {
@@ -38,15 +39,29 @@ internal static class ImageProcessing
 
     public static void ProcessImages(string calibrationId)
     {
-        ProcessStartInfo startInfo = new ProcessStartInfo(DirectoryManager.Python)
+        ProcessStartInfo startInfoProcessing = new ProcessStartInfo(DirectoryManager.Python)
         {
             WindowStyle = ProcessWindowStyle.Hidden,
-            Arguments = $"\"{Path.GetFullPath(_imageProcessorPath)}\" --appId {_appId} --calibrationId {calibrationId}",
+            Arguments = $"\"{Path.GetFullPath(_imageProcessorPath)}\" --appid {_appId} --calibrationid {calibrationId}",
             UseShellExecute = false,
             RedirectStandardOutput = true
         };
 
-        Process? process = Process.Start(startInfo);
-        process?.WaitForExit();
+        Process? processProcessing = Process.Start(startInfoProcessing);
+        processProcessing?.WaitForExit();
+    }
+
+    public static void FindCommonPoints()
+    {
+        ProcessStartInfo startInfoCommonPoints = new ProcessStartInfo(DirectoryManager.Python)
+        {
+            WindowStyle = ProcessWindowStyle.Hidden,
+            Arguments = $"\"{Path.GetFullPath(_commonPointsPath)}\" --appid {_appId}",
+            UseShellExecute = false,
+            RedirectStandardOutput = true
+        };
+
+        Process? processCommonPoints = Process.Start(startInfoCommonPoints);
+        processCommonPoints?.WaitForExit();
     }
 }

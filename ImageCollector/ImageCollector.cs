@@ -56,7 +56,7 @@ public partial class ImageCollector : Form
         float cameraAngle = float.Parse(TxtCameraAngle.Text);
         float imageAngle = float.Parse(TxtImageAngle.Text);
 
-        EnableInputs(false);
+        BeginInvoke(new Action(() => EnableInputs(false)));
 
         ImageProcessing.Initialize(distanceFromObject, cameraAngle, imageAngle, TxtObjectName.Text);
 
@@ -64,17 +64,41 @@ public partial class ImageCollector : Form
 
         for (int i = 0; i < imageQty; i++)
         {
-            LblProcessStatus.Text = $"Taking picture {i + 1} of {imageQty + 1}";
+            BeginInvoke(new Action(() =>
+                LblProcessStatus.Text = $"Taking picture {i + 1} of {imageQty + 1}"
+            ));
 
-            ImageProcessing.CaptureImage((Bitmap)LiveCamImage.Image.Clone(), i);
+            lock (LiveCamImage.Image)
+            {
+                BeginInvoke(new Action(() =>
+                    ImageProcessing.CaptureImage((Image)LiveCamImage.Image.Clone(), i)
+                ));
+            }
+
             RotatingBoard.Rotate(imageAngle);
         }
 
-        LblProcessStatus.Text = $"Processing images with python";
+        BeginInvoke(new Action(() =>
+            LblProcessStatus.Text = $"Processing images with python"
+        ));
 
-        ImageProcessing.ProcessImages(CbbCalibrations.SelectedText);
+        BeginInvoke(new Action(() =>
+            ImageProcessing.ProcessImages(CbbCalibrations.Text)
+        ));
 
-        EnableInputs(true);
+        BeginInvoke(new Action(() =>
+            LblProcessStatus.Text = $"Finding common points"
+        ));
+
+        BeginInvoke(new Action(() =>
+            ImageProcessing.FindCommonPoints()
+        ));
+
+        BeginInvoke(new Action(() =>
+            LblProcessStatus.Text = $"Done!"
+        ));
+
+        BeginInvoke(new Action(() => EnableInputs(true)));
     }
 
     private void EnableInputs(bool enable)
@@ -120,7 +144,7 @@ public partial class ImageCollector : Form
             _videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
             _videoCaptureDevice.VideoResolution = _videoCaptureDevice.VideoCapabilities[CbbCameraResolution.SelectedIndex == -1 ? 0 : CbbCameraResolution.SelectedIndex];
 
-            _videoCaptureDevice.SetCameraProperty(CameraControlProperty.Focus, 1, CameraControlFlags.Manual);
+            _videoCaptureDevice.SetCameraProperty(CameraControlProperty.Focus, 10, CameraControlFlags.Manual);
             _videoCaptureDevice.Start();
         }
     }
@@ -149,7 +173,7 @@ public partial class ImageCollector : Form
         Done();
     }
 
-    private void BtnStartProcess_Click(object sender, EventArgs e) => StartProcess();
+    private void BtnStartProcess_Click(object sender, EventArgs e) => new Thread(StartProcess).Start();
 
     private void CbbSerialPort_SelectedIndexChanged(object sender, EventArgs e) => RotatingBoard.SetPort(CbbSerialPort.SelectedIndex);
 
@@ -167,5 +191,16 @@ public partial class ImageCollector : Form
         }
 
         EnableInputs(true);
+    }
+
+    private void TrbFocus_Scroll(object sender, EventArgs e)
+    {
+        if (_videoCaptureDevice == null)
+        {
+            return;
+        }
+
+        LblFocus.Text = $"Focus - {TrbFocus.Value}";
+        _videoCaptureDevice.SetCameraProperty(CameraControlProperty.Focus, TrbFocus.Value, CameraControlFlags.Manual);
     }
 }
