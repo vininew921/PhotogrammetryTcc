@@ -65,14 +65,23 @@ public partial class ImageCollector : Form
         for (int i = 0; i < imageQty; i++)
         {
             BeginInvoke(new Action(() =>
-                LblProcessStatus.Text = $"Taking picture {i + 1} of {imageQty + 1}"
+                LblProcessStatus.Text = $"Taking picture {i + 1} of {imageQty}"
             ));
 
-            lock (LiveCamImage.Image)
+            lock (LiveCamImage)
             {
-                BeginInvoke(new Action(() =>
-                    ImageProcessing.CaptureImage((Image)LiveCamImage.Image.Clone(), i)
-                ));
+                bool worked = false;
+                while (!worked)
+                {
+                    try
+                    {
+                        BeginInvoke(new Action(() =>
+                            ImageProcessing.CaptureImage((Image)LiveCamImage.Image.Clone(), i)
+                        ));
+                        worked = true;
+                    }
+                    catch { }
+                }
             }
 
             RotatingBoard.Rotate(imageAngle);
