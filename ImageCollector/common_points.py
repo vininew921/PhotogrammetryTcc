@@ -43,21 +43,21 @@ def common_points(app_id):
         #-- Show detected matches
         #plt.imshow(img_matches,),plt.show()
 
-        ck = []
-
         for match in good_matches:
             keypoint1 = keypoints1[match.queryIdx]
             keypoint2 = keypoints2[match.trainIdx]
-            ck.append({
-                f'{i}_x': keypoint1.pt[0],
-                f'{i}_y': keypoint1.pt[1],
-                f'{i+1}_x': keypoint2.pt[0],
-                f'{i+1}_y': keypoint2.pt[1]
-            })
-
-        common_keypoints.append({
-                f'{i}_{i+1}': ck
-        })
+            common_keypoints.append(
+                {
+                    'coordinates': 
+                    {
+                        f'ax': keypoint1.pt[0],
+                        f'ay': keypoint1.pt[1],
+                        f'bx': keypoint2.pt[0],
+                        f'by': keypoint2.pt[1]
+                    }, 
+                    'image_a': i, 
+                    'image_b': i+1
+                }) 
 
         # -- Save common keypoints to a JSON file
         with open(f'{images_path}\common_keypoints.json', 'w') as json_file:
