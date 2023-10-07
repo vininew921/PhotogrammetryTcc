@@ -10,6 +10,10 @@ import json
 def common_points(app_id):
     appdata = os.getenv('APPDATA')
     images_path = f'{appdata}\PhotogrammetryTCC\TempImages\{app_id}\processed_images'
+    images_match_path = f'{appdata}\PhotogrammetryTCC\TempImages\{app_id}\processed_images\matches'
+
+    if not os.path.exists(images_match_path):
+        os.mkdir(images_match_path)
 
     images = glob.glob(f'{images_path}/*.png')
 
@@ -42,6 +46,8 @@ def common_points(app_id):
         cv2.drawMatches(img1, keypoints1, img2, keypoints2, good_matches, img_matches, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
         #-- Show detected matches
         #plt.imshow(img_matches,),plt.show()
+        # Save matches in an image
+        cv2.imwrite(f'{images_match_path}\{i}_{i + 1}.png', img_matches)
 
         for match in good_matches:
             keypoint1 = keypoints1[match.queryIdx]
