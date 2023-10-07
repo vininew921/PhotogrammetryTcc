@@ -6,20 +6,14 @@ namespace ImageCollector;
 
 internal static class ImageProcessing
 {
-    public static float _distanceFromObject;
-    public static float _cameraAngle;
-    public static float _imageAngle;
     public static string _appId = string.Empty;
     public static string _appImagesDir = string.Empty;
 
     private static readonly string _imageProcessorPath = "./image_processing.py";
     private static readonly string _commonPointsPath = "./common_points.py";
 
-    public static void Initialize(float distanceFromObject, float cameraAngle, float imageAngle, string appId)
+    public static void Initialize(string appId)
     {
-        _distanceFromObject = distanceFromObject;
-        _cameraAngle = cameraAngle;
-        _imageAngle = imageAngle;
         _appId = appId;
         _appImagesDir = Path.Combine(DirectoryManager.TemporaryImages, appId);
 

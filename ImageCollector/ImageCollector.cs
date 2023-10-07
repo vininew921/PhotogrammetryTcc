@@ -52,13 +52,11 @@ public partial class ImageCollector : Form
 
     private void StartProcess()
     {
-        float distanceFromObject = float.Parse(TxtCameraDistance.Text);
-        float cameraAngle = float.Parse(TxtCameraAngle.Text);
         float imageAngle = float.Parse(TxtImageAngle.Text);
 
         BeginInvoke(new Action(() => EnableInputs(false)));
 
-        ImageProcessing.Initialize(distanceFromObject, cameraAngle, imageAngle, TxtObjectName.Text);
+        ImageProcessing.Initialize(TxtObjectName.Text);
 
         int imageQty = Convert.ToInt32(360.0f / imageAngle);
 
@@ -120,8 +118,6 @@ public partial class ImageCollector : Form
         CbbCameraResolution.Enabled = enable;
         CbbSourceCamera.Enabled = enable;
 
-        TxtCameraAngle.Enabled = enable;
-        TxtCameraDistance.Enabled = enable;
         TxtImageAngle.Enabled = enable;
         TxtObjectName.Enabled = enable;
     }

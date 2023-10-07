@@ -4,35 +4,37 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using Rectangle = System.Drawing.Rectangle;
 
 public class Triangulation : MonoBehaviour
 {
+    private List<GameObject>[] _intersections;
+
+    [Header("Projection Settings")]
     public GameObject ObjectCenter;
+
     public GameObject LineIntersection;
     public ImageProjection projectionPrefab;
     public ImageProjection[] Projections;
     public List<CommonPoint> CommonPoints = new List<CommonPoint>();
 
-    [Range(0.01f, 0.1f)]
-    public float PrimitiveScale = 0.01f;
+    [Range(0.005f, 0.1f)]
+    public float PrimitiveScale = 0.008f;
 
-    public float ProjectionCenterDistance = 5.0f;
-    public float ProjectionDistance = 20.0f;
-    public float ProjectionScale = 0.2f;
+    public float ProjectionCenterDistance = 2.8f;
+    public float ProjectionDistance = 26.5f;
+    public float ProjectionScale = -0.7f;
 
-    public Color ColorToIgnore = Color.white;
+    [Header("Marching Cubes")]
+    public int GridSize = 32;
 
-    [Range(0.001f, 1.0f)]
-    public float ColorTolerance = 0.1f;
-
-    public int CurrentPoint = 0;
-
-    private List<GameObject>[] _intersections;
+    public float CellSize = 0.1f;
+    public bool SmoothNormals = false;
+    public bool DrawNormals = false;
+    public Material MeshMaterial;
 
     private void Start()
     {
-        string appId = "e791d04a-b994-41f3-be6b-2d85293aa277";
+        string appId = "maco-72";
         string workingDir = Path.Combine(DirectoryManager.TemporaryImages, appId, "processed_images");
 
         int imageCount = Directory.GetFiles(workingDir).Where(x => Path.GetExtension(x) == ".png").Count();
@@ -44,36 +46,38 @@ public class Triangulation : MonoBehaviour
             ImageProjection imageProjection = Instantiate(projectionPrefab)
                                               .Load(Path.Combine(workingDir, $"{i}.png"), i * (360 / imageCount), ObjectCenter.transform.position);
 
+            imageProjection.gameObject.SetActive(false);
             Projections[i] = imageProjection;
         }
 
         CommonPoints = JsonConvert.DeserializeObject<List<CommonPoint>>(File.ReadAllText(Path.Combine(workingDir, "common_keypoints.json")));
+        Debug.Log("appId -> " + CommonPoints.Count);
 
-        Rectangle[] rects = new Rectangle[]
-        {
-            new Rectangle(0, 0, 1200, 133),
-            new Rectangle(0, 0, 315, 1200),
-            new Rectangle(800, 0, 1200, 1200),
-            new Rectangle(0, 750, 1200, 1200),
-        };
+        //System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[]
+        //{
+        //    new System.Drawing.Rectangle(0, 0, 1200, 270),
+        //    new System.Drawing.Rectangle(0, 0, 200, 1200),
+        //    new System.Drawing.Rectangle(800, 0, 1200, 1200),
+        //    new System.Drawing.Rectangle(0, 750, 1200, 1200),
+        //};
 
-        CommonPoints = CommonPoints.Where(x =>
-        {
-            for (int i = 0; i < rects.Length; i++)
-            {
-                int ax = Mathf.FloorToInt(x.Coordinates.Ax);
-                int ay = Mathf.FloorToInt(x.Coordinates.Ay);
-                int bx = Mathf.FloorToInt(x.Coordinates.Bx);
-                int by = Mathf.FloorToInt(x.Coordinates.By);
+        //CommonPoints = CommonPoints.Where(x =>
+        //{
+        //    for (int i = 0; i < rects.Length; i++)
+        //    {
+        //        int ax = Mathf.FloorToInt(x.Coordinates.Ax);
+        //        int ay = Mathf.FloorToInt(x.Coordinates.Ay);
+        //        int bx = Mathf.FloorToInt(x.Coordinates.Bx);
+        //        int by = Mathf.FloorToInt(x.Coordinates.By);
 
-                if (rects[i].Contains(ax, ay) || rects[i].Contains(bx, by))
-                {
-                    return false;
-                }
-            }
+        //        if (rects[i].Contains(ax, ay) || rects[i].Contains(bx, by))
+        //        {
+        //            return false;
+        //        }
+        //    }
 
-            return true;
-        }).ToList();
+        //    return true;
+        //}).ToList();
 
         _intersections = new List<GameObject>[imageCount];
 
@@ -90,7 +94,20 @@ public class Triangulation : MonoBehaviour
 
     private void Update()
     {
+        List<Vector3> pointCloud = Triangulate();
+
+        if (pointCloud.Count < 3)
+        {
+            Debug.LogError("Point cloud must have at least 3 points to create a mesh.");
+            return;
+        }
+    }
+
+    public List<Vector3> Triangulate()
+    {
         int totalCpCount = 0;
+
+        List<Vector3> points = new();
 
         for (int i = 0; i < Projections.Length - 1; i++)
         {
@@ -120,6 +137,8 @@ public class Triangulation : MonoBehaviour
                     continue;
                 }
 
+                points.Add(closestPoint.Value);
+
                 _intersections[i][cpCount].SetActive(true);
                 _intersections[i][cpCount].transform.position = closestPoint.Value;
                 _intersections[i][cpCount].transform.localScale = Vector3.one * PrimitiveScale;
@@ -134,6 +153,8 @@ public class Triangulation : MonoBehaviour
         }
 
         Debug.Log($"Calculated {totalCpCount} common points in total");
+
+        return points;
     }
 
     public static bool AreValuesInsideRectangle(int x, int y, int rectX1, int rectY1, int rectX2, int rectY2, int rectX3, int rectY3, int rectX4, int rectY4)

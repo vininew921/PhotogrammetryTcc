@@ -29,10 +29,6 @@ partial class ImageCollector
     private void InitializeComponent()
     {
         LiveCamImage = new PictureBox();
-        LblCameraDistance = new Label();
-        TxtCameraDistance = new TextBox();
-        TxtCameraAngle = new TextBox();
-        LblCameraAngle = new Label();
         CbbSourceCamera = new ComboBox();
         LblCameraInfo1 = new Label();
         CbbCalibrations = new ComboBox();
@@ -63,42 +59,6 @@ partial class ImageCollector
         LiveCamImage.TabIndex = 1;
         LiveCamImage.TabStop = false;
         // 
-        // LblCameraDistance
-        // 
-        LblCameraDistance.AutoSize = true;
-        LblCameraDistance.Location = new Point(360, 51);
-        LblCameraDistance.Name = "LblCameraDistance";
-        LblCameraDistance.Size = new Size(145, 15);
-        LblCameraDistance.TabIndex = 3;
-        LblCameraDistance.Text = "Distance from object (cm)";
-        // 
-        // TxtCameraDistance
-        // 
-        TxtCameraDistance.Location = new Point(360, 69);
-        TxtCameraDistance.Name = "TxtCameraDistance";
-        TxtCameraDistance.Size = new Size(320, 23);
-        TxtCameraDistance.TabIndex = 4;
-        TxtCameraDistance.Text = "0.0";
-        TxtCameraDistance.TextAlign = HorizontalAlignment.Right;
-        // 
-        // TxtCameraAngle
-        // 
-        TxtCameraAngle.Location = new Point(360, 124);
-        TxtCameraAngle.Name = "TxtCameraAngle";
-        TxtCameraAngle.Size = new Size(320, 23);
-        TxtCameraAngle.TabIndex = 6;
-        TxtCameraAngle.Text = "0.0";
-        TxtCameraAngle.TextAlign = HorizontalAlignment.Right;
-        // 
-        // LblCameraAngle
-        // 
-        LblCameraAngle.AutoSize = true;
-        LblCameraAngle.Location = new Point(360, 106);
-        LblCameraAngle.Name = "LblCameraAngle";
-        LblCameraAngle.Size = new Size(82, 15);
-        LblCameraAngle.TabIndex = 5;
-        LblCameraAngle.Text = "Camera Angle";
-        // 
         // CbbSourceCamera
         // 
         CbbSourceCamera.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -123,7 +83,7 @@ partial class ImageCollector
         // 
         CbbCalibrations.DropDownStyle = ComboBoxStyle.DropDownList;
         CbbCalibrations.FormattingEnabled = true;
-        CbbCalibrations.Location = new Point(360, 246);
+        CbbCalibrations.Location = new Point(360, 141);
         CbbCalibrations.Name = "CbbCalibrations";
         CbbCalibrations.Size = new Size(320, 23);
         CbbCalibrations.TabIndex = 23;
@@ -132,7 +92,7 @@ partial class ImageCollector
         // 
         LblCalibrations.AutoSize = true;
         LblCalibrations.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        LblCalibrations.Location = new Point(360, 228);
+        LblCalibrations.Location = new Point(360, 123);
         LblCalibrations.Name = "LblCalibrations";
         LblCalibrations.Size = new Size(66, 15);
         LblCalibrations.TabIndex = 24;
@@ -140,7 +100,7 @@ partial class ImageCollector
         // 
         // TxtObjectName
         // 
-        TxtObjectName.Location = new Point(360, 307);
+        TxtObjectName.Location = new Point(360, 196);
         TxtObjectName.Name = "TxtObjectName";
         TxtObjectName.Size = new Size(320, 23);
         TxtObjectName.TabIndex = 29;
@@ -149,7 +109,7 @@ partial class ImageCollector
         // 
         LblTriangulationResult.AutoSize = true;
         LblTriangulationResult.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        LblTriangulationResult.Location = new Point(360, 289);
+        LblTriangulationResult.Location = new Point(360, 178);
         LblTriangulationResult.Name = "LblTriangulationResult";
         LblTriangulationResult.Size = new Size(80, 15);
         LblTriangulationResult.TabIndex = 30;
@@ -187,7 +147,7 @@ partial class ImageCollector
         // 
         // TxtImageAngle
         // 
-        TxtImageAngle.Location = new Point(360, 182);
+        TxtImageAngle.Location = new Point(360, 82);
         TxtImageAngle.Name = "TxtImageAngle";
         TxtImageAngle.Size = new Size(320, 23);
         TxtImageAngle.TabIndex = 36;
@@ -197,7 +157,7 @@ partial class ImageCollector
         // LblImageAngle
         // 
         LblImageAngle.AutoSize = true;
-        LblImageAngle.Location = new Point(360, 164);
+        LblImageAngle.Location = new Point(360, 64);
         LblImageAngle.Name = "LblImageAngle";
         LblImageAngle.Size = new Size(127, 15);
         LblImageAngle.TabIndex = 35;
@@ -207,7 +167,7 @@ partial class ImageCollector
         // 
         LblSerialPort.AutoSize = true;
         LblSerialPort.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        LblSerialPort.Location = new Point(12, 363);
+        LblSerialPort.Location = new Point(360, 231);
         LblSerialPort.Name = "LblSerialPort";
         LblSerialPort.Size = new Size(65, 15);
         LblSerialPort.TabIndex = 38;
@@ -217,7 +177,7 @@ partial class ImageCollector
         // 
         CbbSerialPort.DropDownStyle = ComboBoxStyle.DropDownList;
         CbbSerialPort.FormattingEnabled = true;
-        CbbSerialPort.Location = new Point(12, 381);
+        CbbSerialPort.Location = new Point(360, 249);
         CbbSerialPort.Name = "CbbSerialPort";
         CbbSerialPort.Size = new Size(215, 23);
         CbbSerialPort.TabIndex = 37;
@@ -225,7 +185,7 @@ partial class ImageCollector
         // 
         // BtnTestSerialPort
         // 
-        BtnTestSerialPort.Location = new Point(233, 380);
+        BtnTestSerialPort.Location = new Point(581, 249);
         BtnTestSerialPort.Name = "BtnTestSerialPort";
         BtnTestSerialPort.Size = new Size(99, 23);
         BtnTestSerialPort.TabIndex = 39;
@@ -281,10 +241,6 @@ partial class ImageCollector
         Controls.Add(LblCalibrations);
         Controls.Add(CbbCalibrations);
         Controls.Add(CbbSourceCamera);
-        Controls.Add(TxtCameraAngle);
-        Controls.Add(LblCameraAngle);
-        Controls.Add(TxtCameraDistance);
-        Controls.Add(LblCameraDistance);
         Controls.Add(LblCameraInfo1);
         Controls.Add(LiveCamImage);
         Name = "ImageCollector";
@@ -295,14 +251,7 @@ partial class ImageCollector
         PerformLayout();
     }
 
-
-
     #endregion
-    private Label LblCameraDistance;
-    private Label LblCameraAngle;
-
-    private TextBox TxtCameraDistance;
-    private TextBox TxtCameraAngle;
 
     private ComboBox CbbSourceCamera;
 
