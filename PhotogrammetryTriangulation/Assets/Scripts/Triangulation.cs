@@ -1,3 +1,4 @@
+using Assets.Scripts.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,14 @@ public class Triangulation : MonoBehaviour
     public float CellSize = 0.1f;
     public bool SmoothNormals = false;
     public bool DrawNormals = false;
+    public bool HasProcessed = false;
     public Material MeshMaterial;
+
+    private readonly string _appId = "mario_teste_um";
 
     private void Start()
     {
-        string appId = "maco-72";
-        string workingDir = Path.Combine(DirectoryManager.TemporaryImages, appId, "processed_images");
+        string workingDir = Path.Combine(DirectoryManager.TemporaryImages, _appId, "processed_images");
 
         int imageCount = Directory.GetFiles(workingDir).Where(x => Path.GetExtension(x) == ".png").Count();
 
@@ -53,31 +56,31 @@ public class Triangulation : MonoBehaviour
         CommonPoints = JsonConvert.DeserializeObject<List<CommonPoint>>(File.ReadAllText(Path.Combine(workingDir, "common_keypoints.json")));
         Debug.Log("appId -> " + CommonPoints.Count);
 
-        //System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[]
-        //{
-        //    new System.Drawing.Rectangle(0, 0, 1200, 270),
-        //    new System.Drawing.Rectangle(0, 0, 200, 1200),
-        //    new System.Drawing.Rectangle(800, 0, 1200, 1200),
-        //    new System.Drawing.Rectangle(0, 750, 1200, 1200),
-        //};
+        System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[]
+        {
+            new System.Drawing.Rectangle(0, 0, 1200, 270),
+            new System.Drawing.Rectangle(0, 0, 200, 1200),
+            new System.Drawing.Rectangle(800, 0, 1200, 1200),
+            new System.Drawing.Rectangle(0, 750, 1200, 1200),
+        };
 
-        //CommonPoints = CommonPoints.Where(x =>
-        //{
-        //    for (int i = 0; i < rects.Length; i++)
-        //    {
-        //        int ax = Mathf.FloorToInt(x.Coordinates.Ax);
-        //        int ay = Mathf.FloorToInt(x.Coordinates.Ay);
-        //        int bx = Mathf.FloorToInt(x.Coordinates.Bx);
-        //        int by = Mathf.FloorToInt(x.Coordinates.By);
+        CommonPoints = CommonPoints.Where(x =>
+        {
+            for (int i = 0; i < rects.Length; i++)
+            {
+                int ax = Mathf.FloorToInt(x.Coordinates.Ax);
+                int ay = Mathf.FloorToInt(x.Coordinates.Ay);
+                int bx = Mathf.FloorToInt(x.Coordinates.Bx);
+                int by = Mathf.FloorToInt(x.Coordinates.By);
 
-        //        if (rects[i].Contains(ax, ay) || rects[i].Contains(bx, by))
-        //        {
-        //            return false;
-        //        }
-        //    }
+                if (rects[i].Contains(ax, ay) || rects[i].Contains(bx, by))
+                {
+                    return false;
+                }
+            }
 
-        //    return true;
-        //}).ToList();
+            return true;
+        }).ToList();
 
         _intersections = new List<GameObject>[imageCount];
 
@@ -94,20 +97,28 @@ public class Triangulation : MonoBehaviour
 
     private void Update()
     {
-        List<Vector3> pointCloud = Triangulate();
+        List<PlyPoint> pointCloud = Triangulate();
 
         if (pointCloud.Count < 3)
         {
             Debug.LogError("Point cloud must have at least 3 points to create a mesh.");
             return;
         }
+
+        if (HasProcessed)
+        {
+            return;
+        }
+
+        GeneratePly(pointCloud);
+        HasProcessed = true;
     }
 
-    public List<Vector3> Triangulate()
+    public List<PlyPoint> Triangulate()
     {
         int totalCpCount = 0;
 
-        List<Vector3> points = new();
+        List<PlyPoint> points = new();
 
         for (int i = 0; i < Projections.Length - 1; i++)
         {
@@ -137,7 +148,9 @@ public class Triangulation : MonoBehaviour
                     continue;
                 }
 
-                points.Add(closestPoint.Value);
+                Vector3 normal = closestPoint.Value - ObjectCenter.transform.position;
+
+                points.Add(PlyPoint.Create(closestPoint.Value, normal.normalized, pixelColor));
 
                 _intersections[i][cpCount].SetActive(true);
                 _intersections[i][cpCount].transform.position = closestPoint.Value;
@@ -216,23 +229,20 @@ public class Triangulation : MonoBehaviour
 
         return 0.5f * (intersectionPoint1 + intersectionPoint2);
     }
-}
 
-public class CommonPoint
-{
-    [JsonProperty("image_a")]
-    public int ImageA { get; set; }
+    public void GeneratePly(List<PlyPoint> points)
+    {
+        string template = $"ply\r\nformat ascii 1.0\r\ncomment VCGLIB generated\r\nelement vertex {points.Count}\r\nproperty float x\r\nproperty float y\r\nproperty float z\r\nproperty float nx\r\nproperty float ny\r\nproperty float nz\r\nproperty uchar red\r\nproperty uchar green\r\nproperty uchar blue\r\nelement face 0\r\nproperty list uchar int vertex_indices\r\nend_header\r\n";
 
-    [JsonProperty("image_b")]
-    public int ImageB { get; set; }
+        foreach (PlyPoint point in points)
+        {
+            template += $"{point.Coordinate.x} {point.Coordinate.y} {point.Coordinate.z} ";
+            template += $"{point.Normal.x} {point.Normal.y} {point.Normal.z} ";
+            template += $"{(int)point.Color.x} {(int)point.Color.y} {(int)point.Color.z}\r\n";
+        }
 
-    public Coordinate Coordinates { get; set; }
-}
+        string filename = Path.Combine(DirectoryManager.TemporaryImages, _appId, "processed_images", "pointcloud.ply");
 
-public class Coordinate
-{
-    public float Ax { get; set; }
-    public float Ay { get; set; }
-    public float Bx { get; set; }
-    public float By { get; set; }
+        File.WriteAllText(filename, template);
+    }
 }
