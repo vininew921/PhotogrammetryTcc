@@ -10,4 +10,5 @@ for alpha in alphas:
     mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
         pcd, alpha)
     mesh.compute_vertex_normals()
-    o3d.visualization.draw_geometries([mesh], mesh_show_back_face=True)
+    o3d.visualization.draw_geometries(
+        [mesh], mesh_show_back_face=True, width=800, height=600)
