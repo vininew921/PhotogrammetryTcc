@@ -5,44 +5,57 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Triangulation : MonoBehaviour
 {
     private List<GameObject>[] _intersections;
+    private List<PlyPoint> _currentPointCloud;
+    private List<CommonPoint> _commonPoints;
+    private ImageProjection[] _projections;
 
-    [Header("Projection Settings")]
+    public Slider PrimitiveScaleSlider;
+    public Slider ProjectionCenterDistanceSlider;
+    public Slider ProjectionDistanceSlider;
+    public Slider ProjectionScaleSlider;
+    public Text PrimitiveScaleText;
+    public Text ProjectionCenterDistanceText;
+    public Text ProjectionDistanceText;
+    public Text ProjectionScaleText;
+    public Dropdown AvailableObjects;
+
     public GameObject ObjectCenter;
-
     public GameObject LineIntersection;
     public ImageProjection projectionPrefab;
-    public ImageProjection[] Projections;
-    public List<CommonPoint> CommonPoints = new List<CommonPoint>();
-
-    [Range(0.005f, 0.1f)]
-    public float PrimitiveScale = 0.008f;
-
-    public float ProjectionCenterDistance = 2.8f;
-    public float ProjectionDistance = 26.5f;
-    public float ProjectionScale = -0.7f;
-
-    [Header("Marching Cubes")]
-    public int GridSize = 32;
-
-    public float CellSize = 0.1f;
-    public bool SmoothNormals = false;
-    public bool DrawNormals = false;
-    public bool HasProcessed = false;
-    public Material MeshMaterial;
-
-    private readonly string _appId = "mario_teste_um";
 
     private void Start()
     {
-        string workingDir = Path.Combine(DirectoryManager.TemporaryImages, _appId, "processed_images");
+        List<string> _availableObjects = Directory.EnumerateDirectories(DirectoryManager.TemporaryImages).
+                                            Select(path => Path.GetFileName(path)).ToList();
+
+        AvailableObjects.AddOptions(_availableObjects);
+
+        UpdateUiValues();
+    }
+
+    public void LoadPointCloud()
+    {
+        if (AvailableObjects.value == 0)
+        {
+            return;
+        }
+
+        AvailableObjects.Hide();
+        ClearPointCloud();
+
+        string workingDir = Path.Combine(
+            DirectoryManager.TemporaryImages,
+            AvailableObjects.options[AvailableObjects.value].text,
+            "processed_images");
 
         int imageCount = Directory.GetFiles(workingDir).Where(x => Path.GetExtension(x) == ".png").Count();
 
-        Projections = new ImageProjection[imageCount];
+        _projections = new ImageProjection[imageCount];
 
         for (int i = 0; i < imageCount; i++)
         {
@@ -50,11 +63,11 @@ public class Triangulation : MonoBehaviour
                                               .Load(Path.Combine(workingDir, $"{i}.png"), i * (360 / imageCount), ObjectCenter.transform.position);
 
             imageProjection.gameObject.SetActive(false);
-            Projections[i] = imageProjection;
+            _projections[i] = imageProjection;
         }
 
-        CommonPoints = JsonConvert.DeserializeObject<List<CommonPoint>>(File.ReadAllText(Path.Combine(workingDir, "common_keypoints.json")));
-        Debug.Log("appId -> " + CommonPoints.Count);
+        _commonPoints = JsonConvert.DeserializeObject<List<CommonPoint>>(File.ReadAllText(Path.Combine(workingDir, "common_keypoints.json")));
+        Debug.Log("appId -> " + _commonPoints.Count);
 
         System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[]
         {
@@ -64,7 +77,7 @@ public class Triangulation : MonoBehaviour
             new System.Drawing.Rectangle(0, 750, 1200, 1200),
         };
 
-        CommonPoints = CommonPoints.Where(x =>
+        _commonPoints = _commonPoints.Where(x =>
         {
             for (int i = 0; i < rects.Length; i++)
             {
@@ -87,57 +100,84 @@ public class Triangulation : MonoBehaviour
         for (int i = 0; i < _intersections.Length; i++)
         {
             _intersections[i] = new List<GameObject>();
-            for (int j = 0; j < CommonPoints.Where(x => x.ImageA == i).Count(); j++)
+            for (int j = 0; j < _commonPoints.Where(x => x.ImageA == i).Count(); j++)
             {
                 _intersections[i].Add(GameObject.CreatePrimitive(PrimitiveType.Cube));
-                _intersections[i][j].SetActive(false);
             }
         }
+
+        RenderPointCloud();
     }
 
-    private void Update()
+    public void ClearPointCloud()
     {
-        List<PlyPoint> pointCloud = Triangulate();
-
-        if (pointCloud.Count < 3)
-        {
-            Debug.LogError("Point cloud must have at least 3 points to create a mesh.");
-            return;
-        }
-
-        if (HasProcessed)
+        if (_intersections == null || _projections == null)
         {
             return;
         }
 
-        GeneratePly(pointCloud);
-        HasProcessed = true;
+        for (int i = 0; i < _intersections.Length; i++)
+        {
+            for (int j = 0; j < _intersections[i].Count; j++)
+            {
+                Destroy(_intersections[i][j].gameObject);
+            }
+        }
+
+        for (int i = 0; i < _projections.Length; i++)
+        {
+            Destroy(_projections[i].gameObject);
+        }
     }
 
-    public List<PlyPoint> Triangulate()
+    public void UpdateUiValues()
+    {
+        PrimitiveScaleText.text = $"Primitive Scale - {PrimitiveScaleSlider.value:0.000}";
+        ProjectionCenterDistanceText.text = $"Projection Center - {ProjectionCenterDistanceSlider.value:0.000}";
+        ProjectionDistanceText.text = $"Projection Distance - {ProjectionDistanceSlider.value:0.000}";
+        ProjectionScaleText.text = $"Projection Scale - {ProjectionScaleSlider.value:0.000}";
+    }
+
+    public void RenderPointCloud()
+    {
+        if (AvailableObjects.value == 0)
+        {
+            return;
+        }
+
+        UpdateUiValues();
+
+        if (_intersections == null || _projections == null)
+        {
+            return;
+        }
+
+        Triangulate();
+    }
+
+    public void Triangulate()
     {
         int totalCpCount = 0;
 
         List<PlyPoint> points = new();
 
-        for (int i = 0; i < Projections.Length - 1; i++)
+        for (int i = 0; i < _projections.Length - 1; i++)
         {
-            //Projections[i].transform.RotateAround(ObjectCenter.transform.position, Vector3.up, 0.01f);
-            Projections[i].UpdatePosition(ProjectionScale, ProjectionDistance, ProjectionCenterDistance);
-            Projections[i + 1].UpdatePosition(ProjectionScale, ProjectionDistance, ProjectionCenterDistance);
+            _projections[i].UpdatePosition(-ProjectionScaleSlider.value, ProjectionDistanceSlider.value, ProjectionCenterDistanceSlider.value);
+            _projections[i + 1].UpdatePosition(-ProjectionScaleSlider.value, ProjectionDistanceSlider.value, ProjectionCenterDistanceSlider.value);
 
             int cpCount = 0;
-            foreach (CommonPoint cp in CommonPoints.Where(x => x.ImageA == i))
+            foreach (CommonPoint cp in _commonPoints.Where(x => x.ImageA == i))
             {
-                Color pixelColorA = Projections[i].GetPixelColor(cp.Coordinates.Ax, cp.Coordinates.Ay);
-                Color pixelColorB = Projections[i + 1].GetPixelColor(cp.Coordinates.Ax, cp.Coordinates.Ay);
+                Color pixelColorA = _projections[i].GetPixelColor(cp.Coordinates.Ax, cp.Coordinates.Ay);
+                Color pixelColorB = _projections[i + 1].GetPixelColor(cp.Coordinates.Ax, cp.Coordinates.Ay);
                 Color pixelColor = 0.5f * (pixelColorA + pixelColorB);
 
-                Vector3 origin1 = Projections[i].GetPixelPosition(cp.Coordinates.Ax, cp.Coordinates.Ay);
-                Vector3 origin2 = Projections[i + 1].GetPixelPosition(cp.Coordinates.Bx, cp.Coordinates.By);
+                Vector3 origin1 = _projections[i].GetPixelPosition(cp.Coordinates.Ax, cp.Coordinates.Ay);
+                Vector3 origin2 = _projections[i + 1].GetPixelPosition(cp.Coordinates.Bx, cp.Coordinates.By);
 
-                Vector3 dir1 = Projections[i].ProjectionCenter - origin1;
-                Vector3 dir2 = Projections[i + 1].ProjectionCenter - origin2;
+                Vector3 dir1 = _projections[i].ProjectionCenter - origin1;
+                Vector3 dir2 = _projections[i + 1].ProjectionCenter - origin2;
 
                 Vector3? closestPoint = GetClosestPoint(origin1, dir1, origin2, dir2);
 
@@ -152,9 +192,8 @@ public class Triangulation : MonoBehaviour
 
                 points.Add(PlyPoint.Create(closestPoint.Value, normal.normalized, pixelColor));
 
-                _intersections[i][cpCount].SetActive(true);
                 _intersections[i][cpCount].transform.position = closestPoint.Value;
-                _intersections[i][cpCount].transform.localScale = Vector3.one * PrimitiveScale;
+                _intersections[i][cpCount].transform.localScale = Vector3.one * PrimitiveScaleSlider.value;
                 _intersections[i][cpCount].transform.LookAt(0.5f * (origin1 + origin2), Vector3.forward);
                 _intersections[i][cpCount].GetComponent<MeshRenderer>().material.color = pixelColor;
 
@@ -167,7 +206,7 @@ public class Triangulation : MonoBehaviour
 
         Debug.Log($"Calculated {totalCpCount} common points in total");
 
-        return points;
+        _currentPointCloud = points;
     }
 
     public static bool AreValuesInsideRectangle(int x, int y, int rectX1, int rectY1, int rectX2, int rectY2, int rectX3, int rectY3, int rectX4, int rectY4)
@@ -230,18 +269,19 @@ public class Triangulation : MonoBehaviour
         return 0.5f * (intersectionPoint1 + intersectionPoint2);
     }
 
-    public void GeneratePly(List<PlyPoint> points)
+    public void GeneratePly()
     {
-        string template = $"ply\r\nformat ascii 1.0\r\ncomment VCGLIB generated\r\nelement vertex {points.Count}\r\nproperty float x\r\nproperty float y\r\nproperty float z\r\nproperty float nx\r\nproperty float ny\r\nproperty float nz\r\nproperty uchar red\r\nproperty uchar green\r\nproperty uchar blue\r\nelement face 0\r\nproperty list uchar int vertex_indices\r\nend_header\r\n";
+        string template = $"ply\r\nformat ascii 1.0\r\ncomment VCGLIB generated\r\nelement vertex {_currentPointCloud.Count}\r\nproperty float x\r\nproperty float y\r\nproperty float z\r\nproperty float nx\r\nproperty float ny\r\nproperty float nz\r\nproperty uchar red\r\nproperty uchar green\r\nproperty uchar blue\r\nelement face 0\r\nproperty list uchar int vertex_indices\r\nend_header\r\n";
 
-        foreach (PlyPoint point in points)
+        foreach (PlyPoint point in _currentPointCloud)
         {
             template += $"{point.Coordinate.x} {point.Coordinate.y} {point.Coordinate.z} ";
             template += $"{point.Normal.x} {point.Normal.y} {point.Normal.z} ";
             template += $"{(int)point.Color.x} {(int)point.Color.y} {(int)point.Color.z}\r\n";
         }
 
-        string filename = Path.Combine(DirectoryManager.TemporaryImages, _appId, "processed_images", "pointcloud.ply");
+        string selectedApp = AvailableObjects.options[AvailableObjects.value].text;
+        string filename = Path.Combine(DirectoryManager.TemporaryImages, selectedApp, "processed_images", "pointcloud.ply");
 
         File.WriteAllText(filename, template);
     }
