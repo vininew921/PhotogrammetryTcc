@@ -3316,16 +3316,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _active: 1
   _enableRotation: 1
-  _mouseSense: 1.8
+  _mouseSense: 1.5
   _enableTranslation: 1
   _translationSpeed: 55
   _enableMovement: 1
-  _movementSpeed: 10
-  _boostedSpeed: 50
+  _movementSpeed: 3
+  _boostedSpeed: 30
   _boostSpeed: 304
   _moveUp: 101
   _moveDown: 113
-  _enableSpeedAcceleration: 1
+  _enableSpeedAcceleration: 0
   _speedAccelerationFactor: 1.5
   _initPositonButton: 114
 --- !u!1 &1791631644
