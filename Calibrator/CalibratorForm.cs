@@ -81,6 +81,7 @@ public partial class CalibratorForm : Form
             _videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
             _videoCaptureDevice.VideoResolution = _videoCaptureDevice.VideoCapabilities[CbbCameraResolution.SelectedIndex == -1 ? 0 : CbbCameraResolution.SelectedIndex];
 
+            _videoCaptureDevice.SetCameraProperty(CameraControlProperty.Focus, 10, CameraControlFlags.Manual);
             _videoCaptureDevice.Start();
         }
     }
@@ -160,5 +161,16 @@ public partial class CalibratorForm : Form
         Calibration.Calibrate(TxtAppId.Text);
 
         MessageBox.Show("Calibration Successful");
+    }
+
+    private void TrbFocus_Scroll(object sender, EventArgs e)
+    {
+        if (_videoCaptureDevice == null)
+        {
+            return;
+        }
+
+        LblFocus.Text = $"Focus - {TrbFocus.Value}";
+        _videoCaptureDevice.SetCameraProperty(CameraControlProperty.Focus, TrbFocus.Value, CameraControlFlags.Manual);
     }
 }

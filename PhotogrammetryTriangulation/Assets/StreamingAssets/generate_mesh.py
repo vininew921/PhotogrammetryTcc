@@ -14,7 +14,7 @@ def generate_mesh(app_id):
 
     pcd = o3d.io.read_point_cloud(pointcloud_path)
     mesh, _ = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
-        pcd, depth=9)
+        pcd, depth=7)
 
     o3d.visualization.draw_geometries([mesh], width=800, height=600)
     o3d.io.write_triangle_mesh(result_path, mesh)

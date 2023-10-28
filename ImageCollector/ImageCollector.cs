@@ -68,18 +68,25 @@ public partial class ImageCollector : Form
 
             lock (LiveCamImage)
             {
-                bool worked = false;
-                while (!worked)
+                try
                 {
-                    try
+                    BeginInvoke(new Action(() =>
                     {
-                        BeginInvoke(new Action(() =>
-                            ImageProcessing.CaptureImage((Image)LiveCamImage.Image.Clone(), i)
-                        ));
-                        worked = true;
+                        bool worked = false;
+                        while (!worked)
+                        {
+                            try
+                            {
+                                ImageProcessing.CaptureImage((Image)LiveCamImage.Image.Clone(), i);
+                            }
+                            catch { }
+
+                            worked = true;
+                        }
                     }
-                    catch { }
+                    ));
                 }
+                catch { }
             }
 
             RotatingBoard.Rotate(imageAngle);

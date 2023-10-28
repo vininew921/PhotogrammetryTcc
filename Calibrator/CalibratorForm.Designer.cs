@@ -48,6 +48,8 @@ partial class CalibratorForm
         BtnReset = new Button();
         lblCameraResolution = new Label();
         CbbCameraResolution = new ComboBox();
+        LblFocus = new Label();
+        TrbFocus = new TrackBar();
         ((System.ComponentModel.ISupportInitialize)PbbLiveCamera).BeginInit();
         ((System.ComponentModel.ISupportInitialize)PbbImage1).BeginInit();
         ((System.ComponentModel.ISupportInitialize)PbbImage2).BeginInit();
@@ -58,6 +60,7 @@ partial class CalibratorForm
         ((System.ComponentModel.ISupportInitialize)PbbImage9).BeginInit();
         ((System.ComponentModel.ISupportInitialize)PbbImage8).BeginInit();
         ((System.ComponentModel.ISupportInitialize)PbbImage7).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)TrbFocus).BeginInit();
         SuspendLayout();
         // 
         // PbbLiveCamera
@@ -99,7 +102,7 @@ partial class CalibratorForm
         // 
         // TxtAppId
         // 
-        TxtAppId.Location = new Point(62, 397);
+        TxtAppId.Location = new Point(62, 452);
         TxtAppId.Name = "TxtAppId";
         TxtAppId.Size = new Size(320, 23);
         TxtAppId.TabIndex = 4;
@@ -116,7 +119,7 @@ partial class CalibratorForm
         // LblAppId
         // 
         LblAppId.AutoSize = true;
-        LblAppId.Location = new Point(62, 379);
+        LblAppId.Location = new Point(62, 434);
         LblAppId.Name = "LblAppId";
         LblAppId.Size = new Size(43, 15);
         LblAppId.TabIndex = 6;
@@ -124,7 +127,7 @@ partial class CalibratorForm
         // 
         // BtnCalibrate
         // 
-        BtnCalibrate.Location = new Point(62, 426);
+        BtnCalibrate.Location = new Point(62, 481);
         BtnCalibrate.Name = "BtnCalibrate";
         BtnCalibrate.Size = new Size(320, 23);
         BtnCalibrate.TabIndex = 7;
@@ -241,11 +244,32 @@ partial class CalibratorForm
         CbbCameraResolution.TabIndex = 18;
         CbbCameraResolution.SelectedIndexChanged += CbbCameraResolution_SelectedIndexChanged;
         // 
+        // LblFocus
+        // 
+        LblFocus.AutoSize = true;
+        LblFocus.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+        LblFocus.Location = new Point(62, 368);
+        LblFocus.Name = "LblFocus";
+        LblFocus.Size = new Size(56, 15);
+        LblFocus.TabIndex = 44;
+        LblFocus.Text = "Focus - 0";
+        // 
+        // TrbFocus
+        // 
+        TrbFocus.Location = new Point(59, 386);
+        TrbFocus.Maximum = 100;
+        TrbFocus.Name = "TrbFocus";
+        TrbFocus.Size = new Size(320, 45);
+        TrbFocus.TabIndex = 43;
+        TrbFocus.Scroll += TrbFocus_Scroll;
+        // 
         // CalibratorForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1569, 625);
+        Controls.Add(LblFocus);
+        Controls.Add(TrbFocus);
         Controls.Add(lblCameraResolution);
         Controls.Add(CbbCameraResolution);
         Controls.Add(BtnReset);
@@ -278,6 +302,7 @@ partial class CalibratorForm
         ((System.ComponentModel.ISupportInitialize)PbbImage9).EndInit();
         ((System.ComponentModel.ISupportInitialize)PbbImage8).EndInit();
         ((System.ComponentModel.ISupportInitialize)PbbImage7).EndInit();
+        ((System.ComponentModel.ISupportInitialize)TrbFocus).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -304,4 +329,6 @@ partial class CalibratorForm
     private Button BtnReset;
     private Label lblCameraResolution;
     private ComboBox CbbCameraResolution;
+    private Label LblFocus;
+    private TrackBar TrbFocus;
 }
