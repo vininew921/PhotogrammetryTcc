@@ -2,10 +2,12 @@ using Assets.Scripts.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 public class Triangulation : MonoBehaviour
 {
@@ -34,6 +36,7 @@ public class Triangulation : MonoBehaviour
 
     private void Start()
     {
+        string dataAssetPath = Application.streamingAssetsPath;
         List<string> _availableObjects = Directory.EnumerateDirectories(DirectoryManager.TemporaryImages).
                                             Select(path => Path.GetFileName(path)).ToList();
 
@@ -71,7 +74,6 @@ public class Triangulation : MonoBehaviour
         }
 
         _commonPoints = JsonConvert.DeserializeObject<List<CommonPoint>>(File.ReadAllText(Path.Combine(workingDir, "common_keypoints.json")));
-        Debug.Log("appId -> " + _commonPoints.Count);
 
         _intersections = new List<GameObject>[imageCount];
 
@@ -291,5 +293,25 @@ public class Triangulation : MonoBehaviour
         string filename = Path.Combine(DirectoryManager.TemporaryImages, selectedApp, "processed_images", "pointcloud.ply");
 
         File.WriteAllText(filename, template);
+    }
+
+    public void GenerateMesh()
+    {
+        GeneratePly();
+
+        string selectedApp = AvailableObjects.options[AvailableObjects.value].text;
+        string psrPath = Path.Combine(Application.streamingAssetsPath, "generate_mesh.py");
+
+        ProcessStartInfo startInfo = new ProcessStartInfo(DirectoryManager.Python)
+        {
+            WindowStyle = ProcessWindowStyle.Hidden,
+            Arguments = $"\"{psrPath}\" --appid {selectedApp}",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            CreateNoWindow = true,
+        };
+
+        Process process = Process.Start(startInfo);
+        process.WaitForExit();
     }
 }
