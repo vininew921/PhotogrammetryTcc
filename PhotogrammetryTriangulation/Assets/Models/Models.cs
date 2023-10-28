@@ -9,11 +9,14 @@ namespace Assets.Scripts.Models
         public Vector3 Normal { get; set; }
         public Vector3 Color { get; set; }
 
-        public static PlyPoint Create(Vector3 coordinate, Vector3 normal, Color color) => new PlyPoint
+        public float DistanceFromCenter { get; set; }
+
+        public static PlyPoint Create(Vector3 coordinate, Vector3 normal, Color color, float distanceFromCenter) => new PlyPoint
         {
             Coordinate = coordinate,
             Normal = normal,
-            Color = new Vector3(color.r * 255, color.g * 255, color.b * 255)
+            Color = new Vector3(color.r * 255, color.g * 255, color.b * 255),
+            DistanceFromCenter = distanceFromCenter
         };
     }
 

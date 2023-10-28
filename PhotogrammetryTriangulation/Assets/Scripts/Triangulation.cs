@@ -18,15 +18,19 @@ public class Triangulation : MonoBehaviour
     public Slider ProjectionCenterDistanceSlider;
     public Slider ProjectionDistanceSlider;
     public Slider ProjectionScaleSlider;
+    public Slider CullingDistanceSlider;
     public Text PrimitiveScaleText;
     public Text ProjectionCenterDistanceText;
     public Text ProjectionDistanceText;
     public Text ProjectionScaleText;
+    public Text CullingDistanceText;
     public Dropdown AvailableObjects;
 
     public GameObject ObjectCenter;
     public GameObject LineIntersection;
     public ImageProjection projectionPrefab;
+
+    public bool ShowCullDistance = true;
 
     private void Start()
     {
@@ -69,32 +73,6 @@ public class Triangulation : MonoBehaviour
         _commonPoints = JsonConvert.DeserializeObject<List<CommonPoint>>(File.ReadAllText(Path.Combine(workingDir, "common_keypoints.json")));
         Debug.Log("appId -> " + _commonPoints.Count);
 
-        System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[]
-        {
-            new System.Drawing.Rectangle(0, 0, 1200, 270),
-            new System.Drawing.Rectangle(0, 0, 200, 1200),
-            new System.Drawing.Rectangle(800, 0, 1200, 1200),
-            new System.Drawing.Rectangle(0, 750, 1200, 1200),
-        };
-
-        _commonPoints = _commonPoints.Where(x =>
-        {
-            for (int i = 0; i < rects.Length; i++)
-            {
-                int ax = Mathf.FloorToInt(x.Coordinates.Ax);
-                int ay = Mathf.FloorToInt(x.Coordinates.Ay);
-                int bx = Mathf.FloorToInt(x.Coordinates.Bx);
-                int by = Mathf.FloorToInt(x.Coordinates.By);
-
-                if (rects[i].Contains(ax, ay) || rects[i].Contains(bx, by))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }).ToList();
-
         _intersections = new List<GameObject>[imageCount];
 
         for (int i = 0; i < _intersections.Length; i++)
@@ -120,7 +98,7 @@ public class Triangulation : MonoBehaviour
         {
             for (int j = 0; j < _intersections[i].Count; j++)
             {
-                Destroy(_intersections[i][j].gameObject);
+                Destroy(_intersections[i][j]);
             }
         }
 
@@ -136,9 +114,27 @@ public class Triangulation : MonoBehaviour
         ProjectionCenterDistanceText.text = $"Projection Center - {ProjectionCenterDistanceSlider.value:0.000}";
         ProjectionDistanceText.text = $"Projection Distance - {ProjectionDistanceSlider.value:0.000}";
         ProjectionScaleText.text = $"Projection Scale - {ProjectionScaleSlider.value:0.000}";
+        CullingDistanceText.text = $"Culling Distance - {CullingDistanceSlider.value:0.000}";
     }
 
     public void RenderPointCloud()
+    {
+        UpdateUiValues();
+
+        if (AvailableObjects.value == 0)
+        {
+            return;
+        }
+
+        if (_intersections == null || _projections == null)
+        {
+            return;
+        }
+
+        Triangulate();
+    }
+
+    public void ApplyCulling()
     {
         if (AvailableObjects.value == 0)
         {
@@ -147,12 +143,19 @@ public class Triangulation : MonoBehaviour
 
         UpdateUiValues();
 
-        if (_intersections == null || _projections == null)
+        for (int i = 0; i < _intersections.Length; i++)
         {
-            return;
-        }
+            for (int j = 0; j < _intersections[i].Count; j++)
+            {
+                if (Vector3.Distance(_intersections[i][j].transform.position, ObjectCenter.transform.position) > CullingDistanceSlider.value)
+                {
+                    _intersections[i][j].SetActive(false);
+                    continue;
+                }
 
-        Triangulate();
+                _intersections[i][j].SetActive(true);
+            }
+        }
     }
 
     public void Triangulate()
@@ -190,13 +193,14 @@ public class Triangulation : MonoBehaviour
 
                 Vector3 normal = closestPoint.Value - ObjectCenter.transform.position;
 
-                points.Add(PlyPoint.Create(closestPoint.Value, normal.normalized, pixelColor));
-
                 _intersections[i][cpCount].transform.position = closestPoint.Value;
                 _intersections[i][cpCount].transform.localScale = Vector3.one * PrimitiveScaleSlider.value;
                 _intersections[i][cpCount].transform.LookAt(0.5f * (origin1 + origin2), Vector3.forward);
                 _intersections[i][cpCount].GetComponent<MeshRenderer>().material.color = pixelColor;
 
+                float distanceFromCenter = Vector3.Distance(_intersections[i][cpCount].transform.position, ObjectCenter.transform.position);
+
+                points.Add(PlyPoint.Create(closestPoint.Value, normal.normalized, pixelColor, distanceFromCenter));
                 cpCount++;
             }
 
@@ -207,6 +211,7 @@ public class Triangulation : MonoBehaviour
         Debug.Log($"Calculated {totalCpCount} common points in total");
 
         _currentPointCloud = points;
+        ApplyCulling();
     }
 
     public static bool AreValuesInsideRectangle(int x, int y, int rectX1, int rectY1, int rectX2, int rectY2, int rectX3, int rectY3, int rectX4, int rectY4)
@@ -271,9 +276,11 @@ public class Triangulation : MonoBehaviour
 
     public void GeneratePly()
     {
-        string template = $"ply\r\nformat ascii 1.0\r\ncomment VCGLIB generated\r\nelement vertex {_currentPointCloud.Count}\r\nproperty float x\r\nproperty float y\r\nproperty float z\r\nproperty float nx\r\nproperty float ny\r\nproperty float nz\r\nproperty uchar red\r\nproperty uchar green\r\nproperty uchar blue\r\nelement face 0\r\nproperty list uchar int vertex_indices\r\nend_header\r\n";
+        List<PlyPoint> validPoints = _currentPointCloud.Where(x => x.DistanceFromCenter <= CullingDistanceSlider.value).ToList();
 
-        foreach (PlyPoint point in _currentPointCloud)
+        string template = $"ply\r\nformat ascii 1.0\r\ncomment VCGLIB generated\r\nelement vertex {validPoints.Count}\r\nproperty float x\r\nproperty float y\r\nproperty float z\r\nproperty float nx\r\nproperty float ny\r\nproperty float nz\r\nproperty uchar red\r\nproperty uchar green\r\nproperty uchar blue\r\nelement face 0\r\nproperty list uchar int vertex_indices\r\nend_header\r\n";
+
+        foreach (PlyPoint point in validPoints)
         {
             template += $"{point.Coordinate.x} {point.Coordinate.y} {point.Coordinate.z} ";
             template += $"{point.Normal.x} {point.Normal.y} {point.Normal.z} ";
