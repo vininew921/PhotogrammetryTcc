@@ -79,7 +79,10 @@ public partial class ImageCollector : Form
                             {
                                 ImageProcessing.CaptureImage((Image)LiveCamImage.Image.Clone(), i);
                             }
-                            catch { }
+                            catch
+                            {
+                                continue;
+                            }
 
                             worked = true;
                         }

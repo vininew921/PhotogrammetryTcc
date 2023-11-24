@@ -23,7 +23,7 @@ internal static class RotatingBoard
         _serialPort.WriteLine(degrees.ToString("F2"));
 
         Console.WriteLine($"Serial: {_serialPort.ReadLine()}");
-        Thread.Sleep(1000);
+        Thread.Sleep(3000);
         Console.WriteLine($"Serial: {_serialPort.ReadLine()}");
 
         _serialPort.Close();
