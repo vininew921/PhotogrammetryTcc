@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -284,8 +285,8 @@ public class Triangulation : MonoBehaviour
 
         foreach (PlyPoint point in validPoints)
         {
-            template += $"{point.Coordinate.x} {point.Coordinate.y} {point.Coordinate.z} ";
-            template += $"{point.Normal.x} {point.Normal.y} {point.Normal.z} ";
+            template += $"{point.Coordinate.x.ToString(CultureInfo.InvariantCulture)} {point.Coordinate.y.ToString(CultureInfo.InvariantCulture)} {point.Coordinate.z.ToString(CultureInfo.InvariantCulture)} ";
+            template += $"{point.Normal.x.ToString(CultureInfo.InvariantCulture)} {point.Normal.y.ToString(CultureInfo.InvariantCulture)} {point.Normal.z.ToString(CultureInfo.InvariantCulture)} ";
             template += $"{(int)point.Color.x} {(int)point.Color.y} {(int)point.Color.z}\r\n";
         }
 
